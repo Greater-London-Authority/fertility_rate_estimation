@@ -1,0 +1,48 @@
+---
+title: "Untitled"
+output: html_document
+date: "2024-05-24"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+source("R/functions/plot_asfr_selected_areas.R")
+source("R/functions/plot_asfr_selected_years.R")
+
+fpaths <- list(asfr_lad_smooth = "data/processed/asfr_lad_smooth.rds",
+               asfr_lad_raw = "data/processed/asfr_lad_raw.rds")
+
+
+```
+
+```{r}
+
+asfr_lad_smooth <- readRDS(fpaths$asfr_lad_smooth)
+asfr_lad_raw <- readRDS(fpaths$asfr_lad_raw)
+
+
+```
+
+
+
+```{r, echo=FALSE}
+
+sel_cd <- "E12000007"
+sel_yrs <- c(2002, 2008, 2015, 2021)
+
+plot_asfr_selected_years(asfr_lad_raw, sel_cd, sel_yrs)
+plot_asfr_selected_years(asfr_lad_smooth, sel_cd, sel_yrs)
+
+```
+
+```{r, echo=FALSE}
+
+sel_cds <- c("E12000007", "E09000002", "E09000027", "E09000005")
+
+plot_asfr_selected_areas(asfr_lad_smooth, sel_cds, sel_yr = 2002)
+plot_asfr_selected_areas(asfr_lad_smooth, sel_cds, sel_yr = 2011)
+plot_asfr_selected_areas(asfr_lad_smooth, sel_cds, sel_yr = 2021)
+
+```
+
