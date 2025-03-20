@@ -20,6 +20,10 @@ estimate_fertility_sya_cy_births <- function(births_df, population_df,
     filter(sex == "female") %>%
     filter(between(year, year_min, year_max)) %>%
     filter(between(age, asfr_min_age, asfr_max_age)) %>%
+    mutate(value = case_when(
+      value >= 1 ~ value,
+      TRUE ~ 1
+    )) %>%
     mutate(age_of_mother = as.character(age)) %>%
     mutate(age_of_mother = case_when(
       age < births_min_sya ~ births_min_cat_name,

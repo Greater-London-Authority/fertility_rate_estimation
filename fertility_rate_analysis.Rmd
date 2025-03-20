@@ -25,11 +25,83 @@ asfr_lad_raw <- readRDS(fpaths$asfr_lad_raw)
 ```
 
 
+```{r}
+
+tfr <- bind_rows(
+  
+  asfr_lad_smooth %>%
+    group_by(gss_code, gss_name, year, geography) %>%
+    summarise(tfr = sum(fert_rate), .groups = "drop") %>%
+    mutate(source = "smoothed"),
+  
+  asfr_lad_raw %>%
+    group_by(gss_code, gss_name, year, geography) %>%
+    summarise(tfr = sum(fert_rate), .groups = "drop") %>%
+    mutate(source = "raw")
+)
+
+
+```
+
+```{r}
+
+sel_cds <- c("E09000012", "E09000027", "E09000009", "E09000011")
+sel_years <- c(2002, 2011, 2021)
+
+
+tfr %>%
+  filter(source == "smoothed") %>%
+  filter(gss_code %in% sel_cds) %>%
+  ggplot(aes(x = year, y = tfr, colour = gss_name)) +
+  theme_gla(base_size = 10) +
+  geom_line(linewidth = 1, alpha = 0.7) +
+  scale_y_continuous(limits = c(0,NA)) +
+  labs(title = "Total Fertility Rates")
+
+ggsave(filename = "outputs/plots/tfr_plot_psug.svg",
+       device = "svg",
+       height = 7,
+       width = 8)
+
+asfr_lad_raw %>%
+  filter(year %in% sel_years) %>%
+  filter(gss_code %in% sel_cds) %>%
+  ggplot(aes(x = age, y = fert_rate, colour = as.factor(year))) +
+  theme_gla(base_size = 10) +
+  geom_line(linewidth = 1, alpha = 0.7) +
+  scale_y_continuous(limits = c(0,NA)) +
+  facet_wrap("gss_name", ncol = 2) +
+  scale_x_continuous(n.breaks = 8) +
+  labs(title = "Age Specific Fertility Rates")
+
+ggsave(filename = "outputs/plots/asfr_raw_plot_psug.svg",
+       device = "svg",
+       height = 7,
+       width = 8)
+
+asfr_lad_smooth %>%
+  filter(year %in% sel_years) %>%
+  filter(gss_code %in% sel_cds) %>%
+  ggplot(aes(x = age, y = fert_rate, colour = as.factor(year))) +
+  theme_gla(base_size = 10) +
+  geom_line(linewidth = 1, alpha = 0.7) +
+  scale_y_continuous(limits = c(0,NA)) +
+  facet_wrap("gss_name", ncol = 2) +
+  scale_x_continuous(n.breaks = 8) +
+  labs(title = "Age Specific Fertility Rates")
+
+ggsave(filename = "outputs/plots/asfr_smooth_plot_psug.svg",
+       device = "svg",
+       height = 7,
+       width = 8)
+
+```
+
 
 ```{r, echo=FALSE}
 
-sel_cd <- "E12000007"
-sel_yrs <- c(2002, 2008, 2015, 2021)
+sel_cd <- "E09000022"
+sel_yrs <- c(2002, 2011, 2021)
 
 plot_asfr_selected_years(asfr_lad_raw, sel_cd, sel_yrs)
 plot_asfr_selected_years(asfr_lad_smooth, sel_cd, sel_yrs)
@@ -38,11 +110,52 @@ plot_asfr_selected_years(asfr_lad_smooth, sel_cd, sel_yrs)
 
 ```{r, echo=FALSE}
 
-sel_cds <- c("E12000007", "E09000002", "E09000027", "E09000005")
+sel_cds <- c("E09000012", "E09000027", "E09000005")
 
 plot_asfr_selected_areas(asfr_lad_smooth, sel_cds, sel_yr = 2002)
 plot_asfr_selected_areas(asfr_lad_smooth, sel_cds, sel_yr = 2011)
 plot_asfr_selected_areas(asfr_lad_smooth, sel_cds, sel_yr = 2021)
+
+```
+```{r, echo=FALSE}
+
+sel_cds <- c("E09000022")
+
+plot_asfr_selected_areas(asfr_lad_smooth, sel_cds, sel_yr = 2002)
+plot_asfr_selected_areas(asfr_lad_smooth, sel_cds, sel_yr = 2011)
+plot_asfr_selected_areas(asfr_lad_smooth, sel_cds, sel_yr = 2021)
+
+```
+
+
+```{r}
+
+sel_cds <- c("E09000022", "E09000020")
+
+asfr_lad_smooth %>%
+  filter(year %in% sel_yrs) %>%
+  filter(gss_code %in% sel_cds) %>%
+  ggplot(aes(x = age, y = fert_rate, colour = gss_name)) +
+  theme_gla(base_size = 14,
+            free_y_facets = TRUE) +
+  geom_line(linewidth = 1, alpha = 0.7) +
+  scale_y_continuous(limits = c(0,NA), n.breaks = 6) +
+  facet_wrap("gss_name", ncol = 2) +
+  scale_x_continuous(n.breaks = 8) +
+  labs(title = "Age Specific Fertility Rates",
+       caption = "Source: GLA modelled rates based on ONS births by age of mother") +
+  facet_wrap(c("year"), ncol = 3)
+
+ggsave(filename = "outputs/asfr_comp_blog.png",
+       device = "png",
+       units = "px",
+       height = 1260,
+       width = 2400)
+```
+
+```{r}
+
+
 
 ```
 
