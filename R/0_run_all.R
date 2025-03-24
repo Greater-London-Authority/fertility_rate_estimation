@@ -1,0 +1,7 @@
+source("R/0a_fetch_clean_cy_data.R")
+#source("R/0b_fetch_clean_my_data.R")
+source("R/0c_process_mye_nomis_1990s_population.R")
+source("R/0d_prepare_lad_population_data.R")
+source("R/1a_aggregate_lad_data.R")
+source("R/2_calculate_asfrs.R")
+source("R/3_calculate_average_asfr.R")
