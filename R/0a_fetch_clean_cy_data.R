@@ -7,7 +7,7 @@ source("R/functions/split_city_of_london_isles_of_scilly.R")
 
 fpath <- list(raw_births_lad_cy1993_2021 = "data/raw/birthsbyageofmotherlaua19932021finaltable.xlsx",
               raw_births_lad_cy2022_2023 = "data/raw/finalfileage.xlsx",
-              births_lad_cy = "data/intermediate/births_lad_cy.rds",
+              births_lad_cy = "data/intermediate/births_lad_cy.rds"
               )
 
 urls <- list(births_lad_cy_1993_2021 = "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/birthsdeathsandmarriages/livebirths/adhocs/1265livebirthsbyageofmotherandlocalauthorityenglandandwales1993to2021/birthsbyageofmotherlaua19932021finaltable.xlsx",
