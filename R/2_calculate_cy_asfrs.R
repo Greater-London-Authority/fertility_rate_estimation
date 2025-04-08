@@ -11,6 +11,8 @@ fpath <- list(births_cy = "data/intermediate/births_lad_rgn_cy.rds",
               asfr_smooth = "data/processed/asfr_cy_smooth.rds",
               asfr_smooth_csv = "data/processed/asfr_cy_smooth.csv")
 
+if(!dir.exists("data/processed/")) dir.create("data/processed/", recursive = TRUE)
+
 population <- readRDS(fpath$population) %>%
   filter(sex == "female")
 

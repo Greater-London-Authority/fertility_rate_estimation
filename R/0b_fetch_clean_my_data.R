@@ -69,7 +69,7 @@ births_mid_year_lad_1991_2017 <- recode_gss(births_mid_year_lad_1991_2017,
 
 
 births_lad_my <- bind_rows(
-  filter(births_mid_year_lad_1991_2017, year <= 2000),
+  filter(births_mid_year_lad_1991_2017, year <= 2001),
   births_lad_my_2002_on
 )
 

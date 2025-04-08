@@ -18,13 +18,13 @@ fpath <- list(population = "data/intermediate/population_lad_rgn.rds",
               forecast_asfr = "data/processed/forecast_asfr.rds")
 
 
-yr_start_backseries <- 2011
+yr_start_backseries <- 2008
 past_asfr <- readRDS(fpath$past_asfr)
 yr_first_proj <- max(past_asfr$year) + 1
 age_min <- 15
 age_max <- 49
 
-max_asfr <- 0.2
+max_asfr <- 0.18
 
 population_at_risk_ew <- readRDS(fpath$population) %>%
   mutate(age = age + 1,
@@ -34,8 +34,6 @@ population_at_risk_ew <- readRDS(fpath$population) %>%
   filter(sex == "female") %>%
   select(gss_code, year, age, population = value)
 
-population_at_risk_england <- population_at_risk_ew %>%
-  filter(!grepl("TLL|W", gss_code))
 
 lookup_lad_rgn_ctry <- readRDS(fpath$lookup_lad_rgn_ctry)
 
@@ -76,7 +74,7 @@ structural_fit <- base_fit %>%
   reconcile(mint = min_trace(base, method = "mint_shrink"))
 
 forecast_age_standardised_births <- structural_fit %>%
-  forecast(h = 5, simulate = TRUE, bootstrap = TRUE, times = 3000,
+  forecast(h = 10, simulate = TRUE, bootstrap = TRUE, times = 2000,
            point_forecast = list(.median = median))
 
 saveRDS(forecast_age_standardised_births, fpath$forecast_age_standardised_births)
@@ -86,7 +84,7 @@ saveRDS(forecast_age_standardised_births, fpath$forecast_age_standardised_births
 forecast_age_standardised_births <- readRDS(fpath$forecast_age_standardised_births)
 
 #interval_size <- 50
-intervals <- c(75, 67, 50, 2)
+intervals <- c(67, 50, 33, 25)
 #rename_lookup <- c(interval = paste0(interval_size, "%"))
 
 out_fc <- forecast_age_standardised_births %>%
@@ -95,23 +93,23 @@ out_fc <- forecast_age_standardised_births %>%
          high50 = `50%`$upper,
          low67 = `67%`$lower,
          high67 = `67%`$upper,
-         low75 = `75%`$lower,
-         high75 = `75%`$upper,
-         central = `2%`$upper) %>%
+         low33 = `33%`$lower,
+         high33 = `33%`$upper
+         ) %>%
   data.frame() %>%
   select(RGNCD,
          gss_code,
          age,
          year,
          model = .model,
-         mean = .mean,
+         median = .median,
          low50,
          high50,
          high67,
          low67,
-         low75,
-         high75,
-         central) %>%
+         low80,
+         high80
+         ) %>%
   pivot_longer(cols = -any_of(c("RGNCD", "model", "gss_code", "age", "age_name", "year")),
                names_to = "measure", values_to = "value")
 
@@ -124,7 +122,7 @@ out_lad <- out_fc %>%
          gss_code = as.character(gss_code),
          age = as.character(age)) %>%
   mutate(value = case_when(
-    value < 0 ~ 0,
+    value < 0 ~ 0.01,
     TRUE ~ value
   )) %>%
   left_join(standard_pop, by = c("age", "gss_code")) %>%
@@ -133,8 +131,7 @@ out_lad <- out_fc %>%
     fert_rate <= max_asfr ~ value,
     TRUE ~ value * max_asfr/fert_rate
   )) %>%
-  select(-c(fert_rate)) %>%
-  filter(measure != "mean")
+  select(-c(fert_rate))
 
 out_rgn <- out_lad %>%
   group_by(RGNCD, age, year, model, measure) %>%
@@ -143,7 +140,15 @@ out_rgn <- out_lad %>%
             .groups = "drop") %>%
   rename(gss_code = RGNCD)
 
-out_asfr <- bind_rows(out_lad, out_rgn) %>%
+out_eng <- out_lad %>%
+  filter(grepl("E0", gss_code)) %>%
+  group_by(age, year, model, measure) %>%
+  summarise(value = sum(value),
+            population = sum(population),
+            .groups = "drop") %>%
+  mutate(gss_code = "E92000001")
+
+out_asfr <- bind_rows(out_lad, out_rgn, out_eng) %>%
   select(-RGNCD) %>%
   mutate(fert_rate = value/population) %>%
   select(-c(value, population)) %>%
@@ -169,7 +174,7 @@ out_asfr %>%
   filter(gss_code %in% c("E12000007", "E09000002", "E09000033",
                          "E09000030", "E09000007", "E09000015")) %>%
   filter(model %in% c("actual", "mint")) %>%
-  filter(year %in% c(2023, 2026)) %>%
+  filter(year %in% c(2023, 2035)) %>%
   ggplot(aes(x = age, y = fert_rate, colour = measure)) +
   geom_line() +
   theme_minimal() +
@@ -178,7 +183,7 @@ out_asfr %>%
 out_asfr %>%
   filter(gss_code %in% c("E09000002")) %>%
   filter(model %in% c("actual", "mint")) %>%
-  filter(year %in% c(2020:2028)) %>%
+  filter(year %in% c(2020:2032)) %>%
   ggplot(aes(x = age, y = fert_rate, colour = measure)) +
   geom_line() +
   theme_minimal() +

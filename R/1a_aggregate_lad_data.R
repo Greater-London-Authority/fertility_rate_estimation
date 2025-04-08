@@ -2,7 +2,7 @@ library(dplyr)
 source("R/functions/aggregate_to_region.R")
 
 fpaths <- list(births_lad_cy = "data/intermediate/births_lad_cy.rds",
-               births_lad_my = "data/intermediate/births_my_lad(2023_geog).rds",
+               births_lad_my = "data/intermediate/births_lad_my.rds",
                population_lad = "data/intermediate/population_lad(2023_geog).rds",
                births_lad_rgn_cy = "data/intermediate/births_lad_rgn_cy.rds",
                births_lad_rgn_my = "data/intermediate/births_lad_rgn_my.rds",
