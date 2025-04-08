@@ -1,5 +1,4 @@
 library(dplyr)
-library(ggplot2)
 library(readr)
 
 source("R/functions/estimate_fertility_sya_cy_births.R")
@@ -8,9 +7,9 @@ source("R/functions/smooth_single_fertility_curve.R")
 
 fpath <- list(births_cy = "data/intermediate/births_lad_rgn_cy.rds",
               population = "data/intermediate/population_lad_rgn.rds",
-              asfr_raw = "data/processed/asfr_raw.rds",
-              asfr_smooth = "data/processed/asfr_smooth.rds",
-              asfr_smooth_csv = "data/processed/asfr_smooth.csv")
+              asfr_raw = "data/processed/asfr_cy_raw.rds",
+              asfr_smooth = "data/processed/asfr_cy_smooth.rds",
+              asfr_smooth_csv = "data/processed/asfr_cy_smooth.csv")
 
 population <- readRDS(fpath$population) %>%
   filter(sex == "female")
@@ -40,6 +39,3 @@ saveRDS(smooth_fertility_rates, fpath$asfr_smooth)
 
 write_csv(smooth_fertility_rates, fpath$asfr_smooth_csv)
 
-
-smooth_fertility_rates_test <- smooth_fertility_rates %>%
-  filter()

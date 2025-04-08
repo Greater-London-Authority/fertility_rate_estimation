@@ -13,8 +13,8 @@ fpath <- list(raw_births_lad_msoa_my1992_2021 = "data/raw/livebirthsfinal.xlsx",
               births_lsoa21_my = "data/intermediate/births_lsoa21_my.rds"
 )
 
-urls <- list(births_lad_cy_1993_2021 = "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/birthsdeathsandmarriages/livebirths/adhocs/1265livebirthsbyageofmotherandlocalauthorityenglandandwales1993to2021/birthsbyageofmotherlaua19932021finaltable.xlsx",
-             births_lad_cy_2022_2023 = "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/birthsdeathsandmarriages/conceptionandfertilityrates/adhocs/2609livebirthsbyageofmotherbylocalauthoritiesenglandandwales2022to2023/finalfileage.xlsx")
+# urls <- list(births_lad_cy_1993_2021 = "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/birthsdeathsandmarriages/livebirths/adhocs/1265livebirthsbyageofmotherandlocalauthorityenglandandwales1993to2021/birthsbyageofmotherlaua19932021finaltable.xlsx",
+#              births_lad_cy_2022_2023 = "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/birthsdeathsandmarriages/conceptionandfertilityrates/adhocs/2609livebirthsbyageofmotherbylocalauthoritiesenglandandwales2022to2023/finalfileage.xlsx")
 
 
 if(!dir.exists("data/raw/")) dir.create("data/raw/", recursive = TRUE)

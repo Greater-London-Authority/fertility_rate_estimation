@@ -29,7 +29,7 @@ if(!file.exists(fpath$estimates_coc_2001_on)) {
 
 
 population_lad <- bind_rows(readRDS(fpath$mye_1991_2000_nomis) %>%
-                              filter(between(year, 1993, 2000)),
+                              filter(between(year, 1991, 2000)),
 
                             readRDS(fpath$estimates_coc_2001_on) %>%
                               filter(component == "population") %>%
@@ -42,6 +42,8 @@ saveRDS(population_lad, fpath$population_lad)
 births_my_lad <- readRDS(fpath$estimates_coc_2001_on) %>%
   filter(component == "births") %>%
   filter(age == 0) %>%
-  select(-c(age, component))
+  group_by(gss_code, gss_name, year) %>%
+  summarise(value = sum(value), .groups = "drop")
+
 
 saveRDS(births_my_lad, fpath$births_my_lad)

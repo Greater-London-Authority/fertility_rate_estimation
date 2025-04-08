@@ -2,9 +2,11 @@ library(dplyr)
 source("R/functions/aggregate_to_region.R")
 
 fpaths <- list(births_lad_cy = "data/intermediate/births_lad_cy.rds",
-              population_lad = "data/intermediate/population_lad(2023_geog).rds",
-              births_lad_rgn_cy = "data/intermediate/births_lad_rgn_cy.rds",
-              population_lad_rgn = "data/intermediate/population_lad_rgn.rds"
+               births_lad_my = "data/intermediate/births_my_lad(2023_geog).rds",
+               population_lad = "data/intermediate/population_lad(2023_geog).rds",
+               births_lad_rgn_cy = "data/intermediate/births_lad_rgn_cy.rds",
+               births_lad_rgn_my = "data/intermediate/births_lad_rgn_my.rds",
+               population_lad_rgn = "data/intermediate/population_lad_rgn.rds"
 )
 
 aggregate_lad_to_all_geogs <- function(lad_df,
@@ -42,9 +44,10 @@ aggregate_lad_to_all_geogs <- function(lad_df,
   return(all_df)
 }
 
-
 births_lad_rgn_cy <- aggregate_lad_to_all_geogs(lad_df = readRDS(fpaths$births_lad_cy))
 population_lad_rgn <- aggregate_lad_to_all_geogs(lad_df = readRDS(fpaths$population_lad))
+births_lad_rgn_my <- aggregate_lad_to_all_geogs(lad_df = readRDS(fpaths$births_lad_my))
 
 saveRDS(births_lad_rgn_cy, fpaths$births_lad_rgn_cy)
 saveRDS(population_lad_rgn, fpaths$population_lad_rgn)
+saveRDS(births_lad_rgn_my, fpaths$births_lad_rgn_my)
