@@ -14,7 +14,7 @@ fpath <- list(population = "data/intermediate/population_lad_rgn.rds",
               past_asfr = "data/processed/asfr_my.rds",
               projected_asfr = "data/processed/asfr_projected_my.rds",
               lookup_lad_rgn_ctry = "lookups/lookup_lad_rgn_ctry.rds",
-              forecast_age_standardised_births = "data/intermediate/forecast_standardised_births.rds",
+              forecast_age_standardised_births = "data/processed/forecast_standardised_births.rds",
               forecast_asfr = "data/processed/forecast_asfr.rds")
 
 
