@@ -74,7 +74,7 @@ structural_fit <- base_fit %>%
   reconcile(mint = min_trace(base, method = "mint_shrink"))
 
 forecast_age_standardised_births <- structural_fit %>%
-  forecast(h = 10, simulate = TRUE, bootstrap = TRUE, times = 2000,
+  forecast(h = 10, simulate = TRUE, bootstrap = TRUE, times = 4000,
            point_forecast = list(.median = median))
 
 saveRDS(forecast_age_standardised_births, fpath$forecast_age_standardised_births)
@@ -94,7 +94,9 @@ out_fc <- forecast_age_standardised_births %>%
          low67 = `67%`$lower,
          high67 = `67%`$upper,
          low33 = `33%`$lower,
-         high33 = `33%`$upper
+         high33 = `33%`$upper,
+         low25 = `25%`$lower,
+         high25 = `25%`$upper
          ) %>%
   data.frame() %>%
   select(RGNCD,
@@ -107,8 +109,10 @@ out_fc <- forecast_age_standardised_births %>%
          high50,
          high67,
          low67,
-         low80,
-         high80
+         low33,
+         high33,
+         low25,
+         high25
          ) %>%
   pivot_longer(cols = -any_of(c("RGNCD", "model", "gss_code", "age", "age_name", "year")),
                names_to = "measure", values_to = "value")
