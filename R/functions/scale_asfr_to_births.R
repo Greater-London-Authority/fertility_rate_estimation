@@ -7,19 +7,20 @@ scale_asfr_to_births <- function(base_asfr, annual_births, population_at_risk){
 
 
   base_births <- population_at_risk %>%
-    left_join(base_asfr, by = c("age", "gss_code", "year")) %>%
+    left_join(base_asfr, by = NULL) %>%
     select(-c(sex)) %>%
     mutate(base_births = population * fert_rate) %>%
-    group_by(gss_code, gss_name, year) %>%
+    #group_by(gss_code, gss_name, year) %>%
+    group_by(across(-any_of(c("age", "population", "fert_rate", "base_births")))) %>%
     summarise(base_births = sum(base_births), .groups = "drop")
 
   scaling_factors <- annual_births %>%
-    left_join(base_births, by = c("gss_code", "year")) %>%
+    left_join(base_births, by = NULL) %>%
     filter(between(year, yr_min, yr_max)) %>%
     mutate(scaling_factor = births/base_births)
 
   scaled_asfr <- scaling_factors %>%
-    left_join(base_asfr, by = c("gss_code", "year", "gss_name")) %>%
+    left_join(base_asfr, by = NULL) %>%
     mutate(fert_rate = scaling_factor * fert_rate) %>%
     select(-c(scaling_factor, births, base_births))
 
