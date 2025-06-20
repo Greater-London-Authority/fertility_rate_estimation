@@ -8,7 +8,8 @@ source("R/functions/smooth_single_fertility_curve.R")
 fpath <- list(births_lad_cy = "data/intermediate/births_lad_rgn_cy.rds",
               population_lad = "data/intermediate/population_lad_rgn.rds",
               asfr_raw_ave = "data/processed/asfr_lad_raw_3yr.rds",
-              asfr_smooth_ave = "data/processed/asfr_lad_smooth_3yr.rds")
+              asfr_smooth_ave = "data/processed/asfr_lad_smooth_3yr.rds",
+              asfr_for_flexible_area_model = "data/processed/asfr_for_flexible_area_model.rds")
 
 ave_years <- 3
 
@@ -51,3 +52,8 @@ asfr_smooth_ave <- smooth_list %>%
   mutate(period = paste0(year_max - (ave_years -1), " to ", year_max))
 
 saveRDS(asfr_smooth_ave, fpath$asfr_smooth_ave)
+
+asfr_for_flexible_area_model <- asfr_smooth_ave %>%
+  select(age, sex, gss_code, year, rate = fert_rate)
+
+saveRDS(asfr_for_flexible_area_model, fpath$asfr_for_flexible_area_model)
