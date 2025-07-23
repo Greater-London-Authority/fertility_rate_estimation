@@ -4,7 +4,8 @@ library(stringr)
 
 fpath <- list(estimates_coc_2001_on = "data/raw/full_modelled_estimates_series_EW(2023_geog).rds",
               mye_1991_2000_nomis = "data/intermediate/mye_1991_2000_nomis.rds",
-              population_lad = "data/intermediate/population_lad(2023_geog).rds"
+              population_lad = "data/intermediate/population_lad(2023_geog).rds",
+              births_lad = "data/intermediate/births_my_lad(2023_geog).rds"
               )
 
 urls <- list(estimates_coc_2001_on = "https://data.london.gov.uk/download/modelled-population-backseries/2b07a39b-ba63-403a-a3fc-5456518ca785/full_modelled_estimates_series_EW%282023_geog%29.rds",
@@ -37,4 +38,9 @@ population_lad <- bind_rows(readRDS(fpath$mye_1991_2000_nomis) %>%
                               filter(year >= 2001)
                             )
 
+births_lad <-  readRDS(fpath$estimates_coc_2001_on) %>%
+  filter(component == "births") %>%
+  select(-component)
+
 saveRDS(population_lad, fpath$population_lad)
+saveRDS(births_lad, fpath$births_lad)
