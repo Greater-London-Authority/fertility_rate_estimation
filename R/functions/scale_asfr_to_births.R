@@ -10,7 +10,6 @@ scale_asfr_to_births <- function(base_asfr, annual_births, population_at_risk){
     left_join(base_asfr, by = NULL) %>%
     select(-c(sex)) %>%
     mutate(base_births = population * fert_rate) %>%
-    #group_by(gss_code, gss_name, year) %>%
     group_by(across(-any_of(c("age", "population", "fert_rate", "base_births")))) %>%
     summarise(base_births = sum(base_births), .groups = "drop")
 
