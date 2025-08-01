@@ -15,17 +15,17 @@ fpath <- list(
 )
 
 urls <- list(
-  births_lad_cy_1993_2021 =
-    "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/" %>%
-    paste0("birthsdeathsandmarriages/livebirths/adhocs/",
-           "1265livebirthsbyageofmotherandlocalauthorityenglandandwales",
-           "1993to2021/birthsbyageofmotherlaua19932021finaltable.xlsx"),
+  births_lad_cy_1993_2021 = paste0(
+    "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/",
+    "birthsdeathsandmarriages/livebirths/adhocs/",
+    "1265livebirthsbyageofmotherandlocalauthorityenglandandwales",
+    "1993to2021/birthsbyageofmotherlaua19932021finaltable.xlsx"),
 
-  births_lad_cy_2022_2023 =
-    "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/" %>%
-    paste0("birthsdeathsandmarriages/conceptionandfertilityrates/adhocs/",
-           "2609livebirthsbyageofmotherbylocalauthoritiesenglandandwales",
-           "2022to2023/finalfileage.xlsx")
+  births_lad_cy_2022_2023 = paste0(
+    "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/",
+    "birthsdeathsandmarriages/conceptionandfertilityrates/adhocs/",
+    "2609livebirthsbyageofmotherbylocalauthoritiesenglandandwales",
+    "2022to2023/finalfileage.xlsx")
 )
 
 
