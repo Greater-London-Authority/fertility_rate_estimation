@@ -35,7 +35,8 @@ read_and_clean_ss_births_lad <- function(file_path,
 }
 
 
-#' Reads and cleans *calendar year* births from ONS
+#' Reads and cleans *calendar year* births from ONS,
+#' where each year is split across multiple sheets
 #' Recursively calls `read_and_clean_ss_births_lad` on each excel sheet
 #'
 #' @param file_path A string.
@@ -50,7 +51,7 @@ read_and_clean_ms_births_lad <- function(file_path) {
                                          skip = 4,
                                          sheet = sheet,
                                          pivot_cols = c("gss_code", "gss_name"))
-    data$year <- sheet
+    data$year <- as.numeric(sheet)
     data
   }) %>%
     bind_rows() %>%
