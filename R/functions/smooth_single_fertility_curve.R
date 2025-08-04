@@ -11,15 +11,6 @@ smooth_single_fertility_curve <- function(raw_rates, age_range_to_model=c(15:49)
   b2<-4.815
   c2<-33.218
 
-  # starting value range for a grid search on starting values. This is much slower than the single starting value fitting. This
-  # method is used where the single value start method returns an error.
-  grid_start <- data.frame(m=c(0.01,10),
-                           a=c(0.01,10),
-                           b1=c(0.1,50),
-                           c1=c(5,30),
-                           b2=c(0.1,50),
-                           c2=c(25,50))
-
   success <- FALSE
 
   # Run the first pass fit
@@ -34,21 +25,6 @@ smooth_single_fertility_curve <- function(raw_rates, age_range_to_model=c(15:49)
     success <- TRUE
     pass <- "succeeded"
   }, silent=TRUE)
-
-  # If necessary, run the second pass fit
-  # if(!success) {
-  #
-  #   try({
-  #     model_outputs <- nlsLM2(fert_rate ~ curve_function(age,m,a,b1,c1,b2,c2),
-  #                             data = raw_rates,
-  #                             start = grid_start,
-  #                             control = list(maxiter = 200, warnOnly = TRUE))
-  #
-  #     coefs <- coef(model_output)
-  #     success <- TRUE
-  #     pass_num <- "2"
-  #   }, silent=TRUE)
-  # }
 
   # if no fit, use the raw rates
   if(!success) {
