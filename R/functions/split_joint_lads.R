@@ -17,7 +17,7 @@ split_joint_lads <- function(
 ) {
   for (i in joint_codes) {
     tryCatch({
-      if (!(i %in% births_lad_cy2022_2023$gss_code)) {
+      if (!(i %in% data_to_split$gss_code)) {
         stop(i, ": joint codes not present in the data")
       }
     })
