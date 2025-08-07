@@ -47,7 +47,7 @@ download.file(
 )
 
 
-# Step 3: Read, clean and re-code births per LAD (1993-2021)
+###### Step 3: Read, clean and re-code births per LAD (1993-2021) ######
 
 births_lad_cy1993_2021 <- read_and_clean_ms_births_lad(
   file_path = file_path$raw_births_lad_cy1993_2021
