@@ -1,4 +1,5 @@
 library(stringr)
+library(dplyr)
 
 #' Cleans *mid-year* population estimates from Nomis API
 #'
