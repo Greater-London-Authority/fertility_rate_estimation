@@ -35,6 +35,7 @@ raw_population_estimates <- nomis_get_data(
 clean_population_estimates <- clean_population_estimates(
   raw_population_estimates
 )
+
 saveRDS(clean_population_estimates, file_path$population_mye_1991_2000_nomis)
 
 
