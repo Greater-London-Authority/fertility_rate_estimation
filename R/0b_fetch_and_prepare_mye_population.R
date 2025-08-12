@@ -42,7 +42,11 @@ saveRDS(clean_population_estimates, file_path$population_mye_1991_2000_nomis)
 ###### Step 3: Download and clean modelled backseries from the Datastore (from 2001)
 
 download.file(
-  url = "https://data.london.gov.uk/download/modelled-population-backseries/2b07a39b-ba63-403a-a3fc-5456518ca785/full_modelled_estimates_series_EW%282023_geog%29.rds",
+  url = paste0(
+    "https://data.london.gov.uk/download/modelled-population-backseries/",
+    "2b07a39b-ba63-403a-a3fc-5456518ca785/",
+    "full_modelled_estimates_series_EW%282023_geog%29.rds"
+  ),
   destfile = file_path$estimates_coc_from_2001,
   mode = "wb"
 )
