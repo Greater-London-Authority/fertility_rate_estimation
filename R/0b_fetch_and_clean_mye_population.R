@@ -21,7 +21,7 @@ raw_population_estimates <- nomis_get_data(
   gender = c(1, 2),
   measures = 20100,
   time = c(1991:2000),
-  c_age = c(101:191, 210),
+  c_age = c(101:185, 210),
   select = c(
     "date",
     "geography_name",
@@ -40,6 +40,10 @@ saveRDS(clean_population_estimates, file_path$population_mye_1991_2000_nomis)
 
 
 ###### Step 3: Download and clean modelled backseries from the Datastore (from 2001)
+#' Link to the new backseries of population estimates (June 2024 release):
+#' https://data.london.gov.uk/download/fb203828-bde5-4a50-96d9-8adfb4960631/13f2e9f9-f378-47b4-95b1-bde79a5c14f0/full_series_lad.rds
+#' New projections are currently in progress. The link below correspond to the
+#' most updated release
 
 download.file(
   url = paste0(
@@ -62,4 +66,4 @@ population_lad <- bind_rows(
     filter(year >= 2001)
 )
 
-saveRDS(population_lad, fpath$population_lad)
+saveRDS(population_lad, file_path$population_lad)
