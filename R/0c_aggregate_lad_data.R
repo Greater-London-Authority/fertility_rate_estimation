@@ -35,12 +35,12 @@ births_lad_rgn_cy <- aggregate_lad_to_all_geogs(
   lad_geography_label = "LAD23"
 )
 population_lad_rgn <- aggregate_lad_to_all_geogs(
-  lad_df = readRDS(
-    file_paths$population_lad,
-    lookup_paths = lookup_paths,
-    geography_labels = geography_labels,
-    lad_geography_label = "LAD23"
-  )
+  lad_data = readRDS(
+    file_paths$population_lad
+  ),
+  lookup_paths = lookup_paths,
+  geography_labels = geography_labels,
+  lad_geography_label = "LAD23"
 )
 
 saveRDS(births_lad_rgn_cy, file_paths$births_lad_rgn_cy)
