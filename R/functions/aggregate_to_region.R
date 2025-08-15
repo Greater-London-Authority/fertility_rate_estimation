@@ -61,15 +61,3 @@ aggregate_lad_to_all_geogs <- function(
   return(merged_lad_and_regions)
 }
 
-
-aggregate_to_region <- function(lad_data, lookup_path, geography_label) {
-  merged_lad_and_region <- lad_data %>%
-    left_join(readRDS(lookup_path), by = NULL) %>%
-    group_by(across(-any_of(c("value", "gss_code", "gss_name")))) %>%
-    summarise(value = sum(value), .groups = "drop") %>%
-    rename(gss_code = RGNCD, gss_name = RGNNM) %>%
-    mutate(geography = geography_label) %>%
-    select(gss_code, gss_name, geography, everything())
-
-  return(merged_lad_and_region)
-}
