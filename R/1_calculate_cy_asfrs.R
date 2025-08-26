@@ -2,7 +2,6 @@ library(dplyr)
 library(readr)
 
 source("R/functions/estimate_fertility_rates_sya.R")
-source("R/functions/smoothing_functions.R")
 source("R/functions/smooth_fertility_curve.R")
 
 
