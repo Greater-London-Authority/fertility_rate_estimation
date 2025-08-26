@@ -16,10 +16,6 @@ file_path <- list(
   asfr_smooth_csv = "data/processed/asfr_cy_smooth.csv"
 )
 
-if (!dir.exists("data/processed/")) {
-  dir.create("data/processed/", recursive = TRUE)
-}
-
 
 ###### Step 2: Create and save raw age-specific fertility rates ######
 
