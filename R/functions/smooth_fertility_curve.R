@@ -27,7 +27,7 @@ smooth_fertility_curve <- function(
   try(
     {
       # Non-linear least squares fit using modified Levenberg-Marquardt algorithm from minpack.lm
-      model_output <- nlsLM(
+        model_output <- nlsLM(
         fertility_rate ~ curve_function(age, m, a, b1, c1, b2, c2),
         data = raw_rates,
         start = list(m = m, a = a, b1 = b1, c1 = c1, b2 = b2, c2 = c2),
