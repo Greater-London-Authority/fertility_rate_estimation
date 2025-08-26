@@ -1,7 +1,10 @@
 library(dplyr)
 
 
-#' Transforms previously combined years back into single year estimates
+#' Calculates age-specific fertility rates from births & population data
+#' 1. Filters data by common start and end year
+#' 2. Gets population at risk
+#' 3. Adjusts ages according to births and population data
 #'
 #' @param population_data A data.frame.
 #' @param births_data A data.frame.
@@ -55,7 +58,7 @@ estimate_fertility_rates_sya <- function(
 }
 
 
-#' Filters two datasets by common minimum and maximum year to ensure
+#' Filters two datasets by common minimum and maximum years to ensure
 #' that they have the same start and end year
 #'
 #' @param first_df A data.frame.
@@ -74,7 +77,7 @@ filter_data_by_year <- function(first_df, second_df) {
 }
 
 
-#' Gets population at risk by filtering the data according to parameters
+#' Gets population at risk by filtering the data according to age & sex
 #'
 #' @param population_data A data.frame.
 #' @param asfr_min_age A double / integer.
