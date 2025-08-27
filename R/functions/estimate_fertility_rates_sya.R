@@ -51,8 +51,7 @@ estimate_fertility_rates_sya <- function(
             combined_end_age,
             asfr_min_age,
             asfr_max_age
-        ) %>%
-      na.omit()
+        )
 
     return(fertility_rates_sya)
 }
