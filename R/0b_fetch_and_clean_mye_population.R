@@ -19,6 +19,7 @@ file_path <- list(
 raw_population_estimates <- nomis_get_data(
   id = "NM_2002_1",
   gender = c(1, 2),
+  geography = "TYPE424",
   measures = 20100,
   time = c(1991:2000),
   c_age = c(101:185, 210),

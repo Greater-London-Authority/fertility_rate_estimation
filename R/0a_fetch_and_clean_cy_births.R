@@ -14,14 +14,6 @@ file_path <- list(
 )
 
 
-if (!dir.exists("data/raw/")) {
-  dir.create("data/raw/", recursive = TRUE)
-}
-if (!dir.exists("data/intermediate/")) {
-  dir.create("data/intermediate/", recursive = TRUE)
-}
-
-
 ###### Step 2: Download calendar year LAD data from ONS ######
 
 download.file(
