@@ -115,55 +115,6 @@ plot_asfr_selected_areas <- function(
 }
 
 
-#' Plot total fertility rates for selected areas overtime.
-#'
-#' @param tfr_data A data frame containing total fertility rates.
-#' @param lad_codes A character vector, the local authority codes.
-#' @param years A numeric vector, the period to plot.
-#' @param title A string, the title.
-#' @param subtitle A string, the subtitle.
-#' @param save_plot A Boolean, TRUE to save the plot.
-#' @param file_extension A string, can be "eps", "ps", "tex" (pictex), "pdf", "jpeg", "tiff", "png", "bmp", "svg" or "wmf" (windows only).
-#' @param file_name A string, default is to use the function's name.
-#' @returns A plot from `ggplot2`
-plot_tfr_selected_areas <- function(
-  tfr_data,
-  lad_codes,
-  years,
-  title = "Age-Specific Fertility Rates (ASFR)",
-  subtitle = "Fertility rates by age of mother",
-  save_plot = FALSE,
-  file_extension = "png",
-  file_name = "plot_tfr_selected_areas"
-) {
-  out_plot <- tfr_data %>%
-    filter(source == "smoothed") %>%
-    filter(gss_code %in% lad_codes) %>%
-    ggplot(aes(x = year, y = tfr, colour = gss_name)) +
-    theme_gla(base_size = 10) +
-    geom_line(linewidth = 1, alpha = 0.7) +
-    scale_x_continuous(breaks = years, guide = guide_axis(angle = 60)) +
-    scale_y_continuous(limits = c(0, NA)) +
-    labs(
-      title = title,
-      subtitle = subtitle,
-      caption = "Source: GLA modelled rates based on ONS births by age of mother"
-    )
-
-  if (save_plot) {
-    ggsave(
-      filename = paste0("outputs/plots/", file_name, ".", file_extension),
-      device = file_extension,
-      height = 7,
-      width = 8
-    )
-    return(out_plot)
-  } else {
-    return(out_plot)
-  }
-}
-
-
 #' Plot age-specific fertility rates for selected areas and multiple years.
 #'
 #' @param asfr_data A data frame containing age-specific fertility rates.
@@ -178,16 +129,16 @@ plot_tfr_selected_areas <- function(
 #' @param file_name A string, default is to use the function's name.
 #' @returns A plot from `ggplot2`
 plot_asfr_multiple_areas_and_years <- function(
-  asfr_data,
-  lad_codes,
-  years,
-  ncols,
-  label_group,
-  title = "Age-Specific Fertility Rates (ASFR)",
-  subtitle = "Fertility rates by age of mother",
-  save_plot = FALSE,
-  file_extension = "png",
-  file_name = "plot_asfr_multiple_areas_and_years"
+    asfr_data,
+    lad_codes,
+    years,
+    ncols,
+    label_group,
+    title = "Age-Specific Fertility Rates (ASFR)",
+    subtitle = "Fertility rates by age of mother",
+    save_plot = FALSE,
+    file_extension = "png",
+    file_name = "plot_asfr_multiple_areas_and_years"
 ) {
   if (!label_group %in% c("gss_name", "year")) {
     stop(
@@ -238,6 +189,55 @@ plot_asfr_multiple_areas_and_years <- function(
         caption = "Source: GLA modelled rates based on ONS births by age of mother"
       )
   }
+
+  if (save_plot) {
+    ggsave(
+      filename = paste0("outputs/plots/", file_name, ".", file_extension),
+      device = file_extension,
+      height = 7,
+      width = 8
+    )
+    return(out_plot)
+  } else {
+    return(out_plot)
+  }
+}
+
+
+#' Plot total fertility rates for selected areas overtime.
+#'
+#' @param tfr_data A data frame containing total fertility rates.
+#' @param lad_codes A character vector, the local authority codes.
+#' @param years A numeric vector, the period to plot.
+#' @param title A string, the title.
+#' @param subtitle A string, the subtitle.
+#' @param save_plot A Boolean, TRUE to save the plot.
+#' @param file_extension A string, can be "eps", "ps", "tex" (pictex), "pdf", "jpeg", "tiff", "png", "bmp", "svg" or "wmf" (windows only).
+#' @param file_name A string, default is to use the function's name.
+#' @returns A plot from `ggplot2`
+plot_tfr_selected_areas <- function(
+  tfr_data,
+  lad_codes,
+  years,
+  title = "Age-Specific Fertility Rates (ASFR)",
+  subtitle = "Fertility rates by age of mother",
+  save_plot = FALSE,
+  file_extension = "png",
+  file_name = "plot_tfr_selected_areas"
+) {
+  out_plot <- tfr_data %>%
+    filter(source == "smoothed") %>%
+    filter(gss_code %in% lad_codes) %>%
+    ggplot(aes(x = year, y = tfr, colour = gss_name)) +
+    theme_gla(base_size = 10) +
+    geom_line(linewidth = 1, alpha = 0.7) +
+    scale_x_continuous(breaks = years, guide = guide_axis(angle = 60)) +
+    scale_y_continuous(limits = c(0, NA)) +
+    labs(
+      title = title,
+      subtitle = subtitle,
+      caption = "Source: GLA modelled rates based on ONS births by age of mother"
+    )
 
   if (save_plot) {
     ggsave(
