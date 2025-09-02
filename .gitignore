@@ -49,3 +49,4 @@ rsconnect/
 data/*
 !data/README*
 outputs/*
+*.html
