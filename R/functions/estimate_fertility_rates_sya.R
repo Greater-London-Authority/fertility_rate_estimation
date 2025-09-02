@@ -1,21 +1,21 @@
 library(dplyr)
 
 
-#' Calculates age-specific fertility rates from births & population data
-#' 1. Filters data by common start and end year
-#' 2. Gets population at risk
-#' 3. Adjusts ages according to births and population data
+#' Calculate age-specific fertility rates from births & population data
+#' 1. Filter data by common start and end year
+#' 2. Get population at risk
+#' 3. Adjust ages according to births and population data
 #'
-#' @param population_data A data.frame.
-#' @param births_data A data.frame.
+#' @param population_data A data.frame, mid-year estimates aggregated by region.
+#' @param births_data A data.frame, calendar-year births aggregated by region.
 #' @param start_age A double / integer.
 #' @param end_age A double / integer.
-#' @param combined_start_age A string.
-#' @param combined_end_age A string.
+#' @param combined_start_age A character.
+#' @param combined_end_age A character.
 #' @param asfr_min_age A double / integer.
 #' @param asfr_max_age A double / integer.
 #' @param max_rate A double / float.
-#' @returns A data frame.
+#' @returns A data frame, with a new fertility rate column.
 estimate_fertility_rates_sya <- function(
     population_data,
     births_data,
@@ -57,7 +57,7 @@ estimate_fertility_rates_sya <- function(
 }
 
 
-#' Filters two datasets by common minimum and maximum years to ensure
+#' Filter two datasets by common minimum and maximum years to ensure
 #' that they have the same start and end year
 #'
 #' @param first_df A data.frame.
@@ -76,12 +76,12 @@ filter_data_by_year <- function(first_df, second_df) {
 }
 
 
-#' Gets population at risk by filtering the data according to age & sex
+#' Get population at risk by filtering the data according to age & sex
 #'
 #' @param population_data A data.frame.
 #' @param asfr_min_age A double / integer.
 #' @param asfr_max_age A double / integer.
-#' @param sex A string or NULL.
+#' @param sex A character or NULL.
 #' @returns A data frame.
 get_population_at_risk <- function(
     population_data,
@@ -100,14 +100,14 @@ get_population_at_risk <- function(
 }
 
 
-#' Combines single year of age population data into combined years.
+#' Combine single year of age population data into combined years.
 #' E.g., "Under 20" or "Over 40" to match births data.
 #'
 #' @param population_data A data.frame.
 #' @param start_age A double / integer.
 #' @param end_age A double / integer.
-#' @param combined_start_age A string.
-#' @param combined_end_age A string.
+#' @param combined_start_age A character.
+#' @param combined_end_age A character.
 #' @returns A data frame.
 combine_single_year_of_age <- function(
     population_data,
@@ -138,12 +138,12 @@ combine_single_year_of_age <- function(
 }
 
 
-#' Calculates age-specific fertility rates.
+#' Calculate age-specific fertility rates.
 #'
 #' @param population_data A data.frame.
 #' @param births_data A data.frame.
-#' @param max_rate A double / integer.
-#' @returns A data frame.
+#' @param max_rate A double / float.
+#' @returns A data frame, with a new fertility rate column.
 get_asfr <- function(population_data, births_data, max_rate = 0.25) {
     asfr <- population_data %>%
         left_join(births_data, by = NULL) %>%
@@ -160,13 +160,13 @@ get_asfr <- function(population_data, births_data, max_rate = 0.25) {
 }
 
 
-#' Transforms previously combined years back into single year estimates
+#' Transform previously combined years back into single year estimates
 #'
 #' @param rates_data A data.frame.
 #' @param start_age A double / integer.
 #' @param end_age A double / integer.
-#' @param combined_start_age A string.
-#' @param combined_end_age A string.
+#' @param combined_start_age A character.
+#' @param combined_end_age A character.
 #' @param asfr_min_age A double / integer.
 #' @param asfr_max_age A double / integer.
 #' @returns A data frame.
