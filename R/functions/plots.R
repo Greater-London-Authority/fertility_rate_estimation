@@ -219,7 +219,7 @@ plot_tfr_selected_areas <- function(
   tfr_data,
   lad_codes,
   years,
-  title = "Age-Specific Fertility Rates (ASFR)",
+  title = "Total Fertility Rates (TFR)",
   subtitle = "Fertility rates by age of mother",
   save_plot = FALSE,
   file_extension = "png",

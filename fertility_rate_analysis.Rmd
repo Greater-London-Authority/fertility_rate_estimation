@@ -103,7 +103,8 @@ plot_asfr_multiple_areas_and_years(asfr_data = asfr_lad_raw,
                                    lad_codes = lad_codes, 
                                    years = years, 
                                    ncols = 3, 
-                                   label_group = "gss_name")
+                                   label_group = "gss_name", 
+                                   title = "Raw Age-Specific Fertility Rates")
 
 ```
 
@@ -134,13 +135,14 @@ plot_asfr_multiple_areas_and_years(asfr_data = asfr_lad_smooth,
                                    lad_codes = lad_codes, 
                                    years = years, 
                                    ncols = 3, 
-                                   label_group = "gss_name")
+                                   label_group = "gss_name", 
+                                   title = "Smooth Age-Specific Fertility Rates")
 
 
 ```
 
 
-### Total fertility rate 
+### Total Fertility Rate (TFR)
 
 Total fertility rate is the sum of all age-specific fertility rate. As ASFRs have been calculated for one-year group, the TFR is calculated as: \
 
