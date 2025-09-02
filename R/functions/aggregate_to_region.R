@@ -1,12 +1,12 @@
 library(dplyr)
 
-#' Adds a geography column for each type of geography
+#' Add a geography column for each type of geography
 #'
-#' @param data A data.frame.
-#' @param lookup_path A data.frame.
-#' @param separated_codes A character.
+#' @param lad_data A data.frame, population data per local authority district.
+#' @param lookup_path A character.
 #' @param geography_label A character.
-#' @returns A data frame.
+#' @param lad_geography_label A character, e.g., 'RNG' for region or 'CTRY' for country.
+#' @returns A data frame with new aggregated row according to the geography provided.
 aggregate_to_region <- function(
   lad_data,
   lookup_path,
@@ -25,22 +25,23 @@ aggregate_to_region <- function(
 }
 
 
-#' Calls `aggregate_to_region` for each type of geography
+#' Filter local authority data - England and Wales
+#' Call `aggregate_to_region` for each type of geography
 #'
-#' @param lad_data A data.frame.
-#' @param lookup_paths A data.frame.
-#' @param separated_codes A character.
-#' @param geography_label A character.
-#' @returns A data frame.
+#' @param lad_data A data.frame, population data per local authority district.
+#' @param lookup_paths A list.
+#' @param geography_labels A list.
+#' @param lad_geography_labels A list.
+#' @returns A data frame with new aggregated row according to the geography provided.
 aggregate_lad_to_all_geogs <- function(
   lad_data,
   lookup_paths,
   geography_labels,
-  lad_geography_label
+  lad_geography_labels
 ) {
   lad_data_with_geography <- lad_data %>%
     filter(grepl("E0|W0", gss_code)) %>%
-    mutate(geography = lad_geography_label)
+    mutate(geography = lad_geography_labels)
 
   temporary_list <- sapply(names(lookup_paths), function(x) NULL)
 
@@ -60,4 +61,3 @@ aggregate_lad_to_all_geogs <- function(
 
   return(merged_lad_and_regions)
 }
-
