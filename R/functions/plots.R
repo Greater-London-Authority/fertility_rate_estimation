@@ -129,16 +129,16 @@ plot_asfr_selected_areas <- function(
 #' @param file_name A string, default is to use the function's name.
 #' @returns A plot from `ggplot2`
 plot_asfr_multiple_areas_and_years <- function(
-    asfr_data,
-    lad_codes,
-    years,
-    ncols,
-    label_group,
-    title = "Age-Specific Fertility Rates (ASFR)",
-    subtitle = "Fertility rates by age of mother",
-    save_plot = FALSE,
-    file_extension = "png",
-    file_name = "plot_asfr_multiple_areas_and_years"
+  asfr_data,
+  lad_codes,
+  years,
+  ncols,
+  label_group,
+  title = "Age-Specific Fertility Rates (ASFR)",
+  subtitle = "Fertility rates by age of mother",
+  save_plot = FALSE,
+  file_extension = "png",
+  file_name = "plot_asfr_multiple_areas_and_years"
 ) {
   if (!label_group %in% c("gss_name", "year")) {
     stop(
