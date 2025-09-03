@@ -30,6 +30,8 @@ saveRDS(raw_fertility_rates, file_path$asfr_raw)
 raw_list <- split(raw_fertility_rates, ~ gss_code + year)
 smooth_list <- sapply(names(raw_list), function(x) NULL)
 
+message("Smoothing fertility curve...")
+
 for (i in 1:length(raw_list)) {
   smooth_list[[i]] <- smooth_fertility_curve(raw_list[[i]])
 
@@ -42,4 +44,4 @@ smooth_fertility_rates <- smooth_list %>%
 
 saveRDS(smooth_fertility_rates, file_path$asfr_smooth)
 
-write_csv(smooth_fertility_rates, file_path$asfr_smooth_csv)
+rm(list = ls())

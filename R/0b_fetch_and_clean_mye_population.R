@@ -68,3 +68,5 @@ population_lad <- bind_rows(
 )
 
 saveRDS(population_lad, file_path$population_lad)
+
+rm(list = ls())

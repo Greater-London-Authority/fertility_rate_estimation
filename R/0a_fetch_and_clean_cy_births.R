@@ -85,3 +85,5 @@ rm(
 )
 
 saveRDS(births_lad_cy, file_path$births_lad_cy)
+
+rm(list = ls())

@@ -45,3 +45,5 @@ population_lad_rgn <- aggregate_lad_to_all_geogs(
 
 saveRDS(births_lad_rgn_cy, file_paths$births_lad_rgn_cy)
 saveRDS(population_lad_rgn, file_paths$population_lad_rgn)
+
+rm(list = ls())
