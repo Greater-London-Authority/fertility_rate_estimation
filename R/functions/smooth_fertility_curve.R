@@ -2,10 +2,10 @@ library(dplyr)
 library(minpack.lm)
 
 
-#' Smooths fertility rates using the Hadwiger mixture model and non-linear least squares
+#' Smooth fertility rates using the Hadwiger mixture model and non-linear least squares
 #'
 #' @param raw_rates A nested list.
-#' @param age_range_to_model A integer vector.
+#' @param age_range_to_model A numeric vector.
 #' @returns A nested list.
 smooth_fertility_curve <- function(
   raw_rates,
@@ -92,11 +92,11 @@ curve_function <- function(age, m, a, b1, c1, b2, c2) {
 }
 
 
-#' Calls `curve_fitting` function for given parameters for each age
+#' Call `curve_fitting` for given parameters for each age
 #'
-#' @param func A function, as a string.
-#' @param fit_coefs A integer vector of length 6.
-#' @param age A integer vector.
+#' @param func A function, as a character.
+#' @param fit_coefs A numeric vector of length 6.
+#' @param age A numeric vector.
 getPred <- function(func, fit_coefs, age) {
   fit_coefs <- as.list(fit_coefs)
   fit_coefs$age <- age

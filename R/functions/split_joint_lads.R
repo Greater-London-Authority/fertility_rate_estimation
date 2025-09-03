@@ -1,12 +1,12 @@
 library(dplyr)
 
-#' Splits joint local authorities
+#' Split joint local authorities
 #'
-#' @param data_to_split A data.frame.
-#' @param past_data A data.frame.
+#' @param data_to_split A data frame.
+#' @param past_data A data frame.
 #' @param separated_codes A list of character vectors.
 #' @param joint_codes A character vector.
-#' @param num_years_past_data A integer / double.
+#' @param num_years_past_data A double / integer.
 #' @returns A data frame.
 split_joint_lads <- function(
   data_to_split,
@@ -41,7 +41,7 @@ split_joint_lads <- function(
 
   proportions_by_age_of_mother <- bind_rows(temporary_list)
 
-  separated_las <- split_combined_la(
+  separated_las <- calculate_current_births_for_joint_lads(
     data_to_split,
     proportions_by_age_of_mother,
     joint_codes,
@@ -52,13 +52,22 @@ split_joint_lads <- function(
 }
 
 
-split_combined_la <- function(
+#' Calculate current births using proportions based on past data
+#' 1. Use proportion data to calculate births in the current data
+#' 2. Merge data from previous step with current data
+#'
+#' @param data_to_split A data frame.
+#' @param proportions_by_age_of_mother A data frame with proportional births based on past data (see `get_proportion_and_joint_codes`).
+#' @param joint_codes A character vector.
+#' @param num_years_past_data A double / integer.
+#' @returns A data frame with only single LADs
+calculate_current_births_for_joint_lads <- function(
   data_to_split,
   proportions_by_age_of_mother,
   joint_codes,
   lookup_names
 ) {
-  split_combined_la <- data_to_split %>%
+  calculate_current_births_for_joint_lads <- data_to_split %>%
     filter(gss_code %in% joint_codes) %>%
     rename(joint_code = gss_code) %>%
     full_join(
@@ -72,13 +81,20 @@ split_combined_la <- function(
 
   merge_split_la_data <- data_to_split %>%
     filter(!gss_code %in% c(joint_codes)) %>%
-    bind_rows(split_combined_la) %>%
+    bind_rows(calculate_current_births_for_joint_lads) %>%
     arrange(year, gss_code, age_of_mother)
 
   return(merge_split_la_data)
 }
 
 
+#' Calculate proportional births for joint local authories using past data
+#'
+#' @param past_data A data frame.
+#' @param separated_codes A list of character vectors.
+#' @param joint_codes A character vector.
+#' @param num_years_past_data A double / integer.
+#' @returns A data frame containing only the joint LADs with a new proportion column.
 get_proportion_and_joint_codes <- function(
   past_data,
   separated_codes,
