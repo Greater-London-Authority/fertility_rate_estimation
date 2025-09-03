@@ -146,7 +146,7 @@ combine_single_year_of_age <- function(
 #' @returns A data frame, with a new fertility rate column.
 get_asfr <- function(population_data, births_data, max_rate = 0.25) {
     asfr <- population_data %>%
-        left_join(births_data, by = NULL) %>%
+        left_join(births_data, by = join_by(gss_code, year, age_of_mother)) %>%
         mutate(fertility_rate = (births / population) / group_size) %>%
         mutate(
             fertility_rate = case_when(

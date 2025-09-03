@@ -14,7 +14,7 @@ aggregate_to_region <- function(
   lad_geography_label
 ) {
   merged_lad_and_region <- lad_data %>%
-    left_join(readRDS(lookup_path), by = NULL) %>%
+    left_join(readRDS(lookup_path), by = join_by(gss_code, gss_name)) %>%
     group_by(across(-any_of(c("value", "gss_code", "gss_name")))) %>%
     summarise(value = sum(value), .groups = "drop") %>%
     rename(gss_code = RGNCD, gss_name = RGNNM) %>%
