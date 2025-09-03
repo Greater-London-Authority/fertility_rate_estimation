@@ -24,7 +24,8 @@ download.file(
     "1993to2021/birthsbyageofmotherlaua19932021finaltable.xlsx"
   ),
   destfile = file_path$raw_births_lad_cy1993_2021,
-  mode = "wb"
+  mode = "wb",
+  quiet = TRUE
 )
 
 download.file(
@@ -35,7 +36,8 @@ download.file(
     "2022to2023/finalfileage.xlsx"
   ),
   destfile = file_path$raw_births_lad_cy2022_2023,
-  mode = "wb"
+  mode = "wb",
+  quiet = TRUE
 )
 
 
