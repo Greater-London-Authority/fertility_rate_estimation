@@ -52,4 +52,5 @@ outputs/*
 *.html
 
 # Renv files & directories
-renv/*
+renv/library/*
+renv/staging/*
