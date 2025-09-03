@@ -23,7 +23,12 @@ read_and_clean_ss_births_lad <- function(
     gss_name = "Local Authority"
   )
 
-  cleaned_births <- read_excel(file_path, sheet = sheet, skip = skip) %>%
+  cleaned_births <- read_excel(
+    file_path,
+    sheet = sheet,
+    skip = skip,
+    .name_repair = "unique_quiet"
+  ) %>%
     rename(any_of(cols_to_rename)) %>%
     pivot_longer(
       cols = -any_of(pivot_cols),
