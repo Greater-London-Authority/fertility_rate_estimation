@@ -1,9 +1,9 @@
 library(stringr)
 library(dplyr)
 
-#' Cleans *mid-year* population estimates from Nomis API
+#' Clean *mid-year* population estimates from Nomis API
 #'
-#' @param raw_population_estimates A data.frame.
+#' @param raw_population_estimates A data.frame, data dowloaded from Nomis API.
 #' @returns A data frame.
 clean_population_estimates <- function(raw_population_estimates) {
   population_estimates <- raw_population_estimates %>%

@@ -8,8 +8,8 @@ source("R/functions/split_joint_lads.R")
 ###### Step 1: Create global variables ######
 
 file_path <- list(
-  raw_births_lad_cy1993_2021 = "data/raw/births_by_ageofmother_lad_1993_2021.xlsx",
-  raw_births_lad_cy2022_2023 = "data/raw/births_by_ageofmother_lad_2022_2023.xlsx",
+  raw_births_lad_cy1993_2021 = "data/raw/births_lad_cy_1993_2021.xlsx",
+  raw_births_lad_cy2022_2023 = "data/raw/births_lad_cy_2022_2023.xlsx",
   births_lad_cy = "data/intermediate/births_lad_cy.rds"
 )
 
@@ -24,7 +24,8 @@ download.file(
     "1993to2021/birthsbyageofmotherlaua19932021finaltable.xlsx"
   ),
   destfile = file_path$raw_births_lad_cy1993_2021,
-  mode = "wb"
+  mode = "wb",
+  quiet = TRUE
 )
 
 download.file(
@@ -35,7 +36,8 @@ download.file(
     "2022to2023/finalfileage.xlsx"
   ),
   destfile = file_path$raw_births_lad_cy2022_2023,
-  mode = "wb"
+  mode = "wb",
+  quiet = TRUE
 )
 
 
@@ -77,9 +79,6 @@ births_lad_cy2022_2023 <- split_joint_lads(
 
 births_lad_cy <- bind_rows(births_lad_cy1993_2021, births_lad_cy2022_2023)
 
-rm(
-  births_lad_cy1993_2021,
-  births_lad_cy2022_2023
-)
-
 saveRDS(births_lad_cy, file_path$births_lad_cy)
+
+rm(list = ls())

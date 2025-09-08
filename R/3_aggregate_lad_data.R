@@ -6,9 +6,9 @@ source("R/functions/aggregate_to_region.R")
 
 file_paths <- list(
   births_lad_cy = "data/intermediate/births_lad_cy.rds",
-  population_lad = "data/intermediate/population_lad23.rds",
-  births_lad_rgn_cy = "data/intermediate/births_lad_rgn_cy.rds",
-  population_lad_rgn = "data/intermediate/population_lad_rgn.rds"
+  population_lad = "data/intermediate/population_lad_my.rds",
+  births_lad_rgn_cy = "data/intermediate/births_lad_agg_cy.rds",
+  population_lad_rgn = "data/intermediate/population_lad_agg_my.rds"
 )
 
 lookup_paths <- list(
@@ -45,3 +45,5 @@ population_lad_rgn <- aggregate_lad_to_all_geogs(
 
 saveRDS(births_lad_rgn_cy, file_paths$births_lad_rgn_cy)
 saveRDS(population_lad_rgn, file_paths$population_lad_rgn)
+
+rm(list = ls())

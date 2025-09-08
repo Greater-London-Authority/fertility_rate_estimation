@@ -16,8 +16,8 @@ source("R/functions/plots.R")
 
 ```{r}
 # Read in raw and smooth fertility rates
-asfr_lad_smooth <- readRDS("data/processed/asfr_cy_smooth.rds")
-asfr_lad_raw <- readRDS("data/processed/asfr_cy_raw.rds")
+asfr_lad_smooth <- readRDS("data/processed/smooth_asfr_lad_agg_cy.rds")
+asfr_lad_raw <- readRDS("data/processed/raw_asfr_lad_agg_cy.rds")
 
 
 # Set global variables
@@ -44,14 +44,14 @@ total_fertility_rates <- bind_rows(
 
 ### Introduction to fertility estimates \
 
-Fertility refers to the number of live births within an individual or group, influenced by a combination of biological, social, cultural, and economic factors. At the GLA, we produce fertility rate estimates for each local authority in England and Wales. These estimates are a key input into our annual population estimates. \
+Fertility refers to the number of live births within an individual or group, influenced by a combination of biological, social, cultural, and economic factors [@smith_state_2005]. At the GLA, we produce fertility rate estimates for each local authority in England and Wales. These estimates are a key input into our annual population estimates. \
 
 Fertility patterns typically follow a bell-shaped curve, low during the early years of childbearing age, peaking in the late twenties or early thirties, and then declining thereafter. This general pattern is consistent across most human populations, as illustrated below: \
 
 <br />
 
 
-```{r}
+```{r warning=FALSE}
 # Dummy data for normal distribution
 x <- seq(15, 50, by = 1)
 y <- dnorm(x, mean = 32, sd = 5)

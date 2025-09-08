@@ -8,11 +8,10 @@ source("R/functions/smooth_fertility_curve.R")
 ###### Step 1: Create global variables ######
 
 file_path <- list(
-  births_cy = "data/intermediate/births_lad_rgn_cy.rds",
-  population = "data/intermediate/population_lad_rgn.rds",
-  asfr_raw = "data/processed/asfr_cy_raw.rds",
-  asfr_smooth = "data/processed/asfr_cy_smooth.rds",
-  asfr_smooth_csv = "data/processed/asfr_cy_smooth.csv"
+  births_cy = "data/intermediate/births_lad_agg_cy.rds",
+  population = "data/intermediate/population_lad_agg_my.rds",
+  asfr_raw = "data/processed/raw_asfr_lad_agg_cy.rds",
+  asfr_smooth = "data/processed/smooth_asfr_lad_agg_cy.rds"
 )
 
 
@@ -30,6 +29,8 @@ saveRDS(raw_fertility_rates, file_path$asfr_raw)
 raw_list <- split(raw_fertility_rates, ~ gss_code + year)
 smooth_list <- sapply(names(raw_list), function(x) NULL)
 
+message("Smoothing fertility curves...")
+
 for (i in 1:length(raw_list)) {
   smooth_list[[i]] <- smooth_fertility_curve(raw_list[[i]])
 
@@ -42,4 +43,4 @@ smooth_fertility_rates <- smooth_list %>%
 
 saveRDS(smooth_fertility_rates, file_path$asfr_smooth)
 
-write_csv(smooth_fertility_rates, file_path$asfr_smooth_csv)
+rm(list = ls())
