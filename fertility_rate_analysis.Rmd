@@ -1,161 +1,170 @@
 ---
-title: "Untitled"
+title: "Fertility Rate Estimates"
+author: "Ben Corr - Greater London Authority"
+date: "`r format(Sys.time(), '%d/%m/%Y')`"
 output: html_document
-date: "2024-05-24"
+bibliography: references.bib
+link-citations: true
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 
-source("R/functions/plot_asfr_selected_areas.R")
-source("R/functions/plot_asfr_selected_years.R")
-
-fpaths <- list(asfr_lad_smooth = "data/processed/asfr_lad_smooth.rds",
-               asfr_lad_raw = "data/processed/asfr_lad_raw.rds")
-
+source("R/functions/plots.R")
 
 ```
 
 ```{r}
-
-asfr_lad_smooth <- readRDS(fpaths$asfr_lad_smooth)
-asfr_lad_raw <- readRDS(fpaths$asfr_lad_raw)
-
-
-```
+# Read in raw and smooth fertility rates
+asfr_lad_smooth <- readRDS("data/processed/asfr_cy_smooth.rds")
+asfr_lad_raw <- readRDS("data/processed/asfr_cy_raw.rds")
 
 
-```{r}
+# Set global variables
+lad_codes <- c("E09000022", "E12000007", "E92000001")
+years <- c(2002, 2011, 2021)
 
-tfr <- bind_rows(
+
+# Create total fertility rates
+total_fertility_rates <- bind_rows(
   
   asfr_lad_smooth %>%
     group_by(gss_code, gss_name, year, geography) %>%
-    summarise(tfr = sum(fert_rate), .groups = "drop") %>%
+    summarise(tfr = sum(fertility_rate), .groups = "drop") %>%
     mutate(source = "smoothed"),
   
   asfr_lad_raw %>%
     group_by(gss_code, gss_name, year, geography) %>%
-    summarise(tfr = sum(fert_rate), .groups = "drop") %>%
+    summarise(tfr = sum(fertility_rate), .groups = "drop") %>%
     mutate(source = "raw")
 )
 
-
 ```
+<br />
 
-```{r}
+### Introduction to fertility estimates \
 
-sel_cds <- c("E09000012", "E09000027", "E09000009", "E09000011")
-sel_years <- c(2002, 2011, 2021)
+Fertility refers to the number of live births within an individual or group, influenced by a combination of biological, social, cultural, and economic factors. At the GLA, we produce fertility rate estimates for each local authority in England and Wales. These estimates are a key input into our annual population estimates. \
 
+Fertility patterns typically follow a bell-shaped curve, low during the early years of childbearing age, peaking in the late twenties or early thirties, and then declining thereafter. This general pattern is consistent across most human populations, as illustrated below: \
 
-tfr %>%
-  filter(source == "smoothed") %>%
-  filter(gss_code %in% sel_cds) %>%
-  ggplot(aes(x = year, y = tfr, colour = gss_name)) +
-  theme_gla(base_size = 10) +
-  geom_line(linewidth = 1, alpha = 0.7) +
-  scale_y_continuous(limits = c(0,NA)) +
-  labs(title = "Total Fertility Rates")
-
-ggsave(filename = "outputs/plots/tfr_plot_psug.svg",
-       device = "svg",
-       height = 7,
-       width = 8)
-
-asfr_lad_raw %>%
-  filter(year %in% sel_years) %>%
-  filter(gss_code %in% sel_cds) %>%
-  ggplot(aes(x = age, y = fert_rate, colour = as.factor(year))) +
-  theme_gla(base_size = 10) +
-  geom_line(linewidth = 1, alpha = 0.7) +
-  scale_y_continuous(limits = c(0,NA)) +
-  facet_wrap("gss_name", ncol = 2) +
-  scale_x_continuous(n.breaks = 8) +
-  labs(title = "Age Specific Fertility Rates")
-
-ggsave(filename = "outputs/plots/asfr_raw_plot_psug.svg",
-       device = "svg",
-       height = 7,
-       width = 8)
-
-asfr_lad_smooth %>%
-  filter(year %in% sel_years) %>%
-  filter(gss_code %in% sel_cds) %>%
-  ggplot(aes(x = age, y = fert_rate, colour = as.factor(year))) +
-  theme_gla(base_size = 10) +
-  geom_line(linewidth = 1, alpha = 0.7) +
-  scale_y_continuous(limits = c(0,NA)) +
-  facet_wrap("gss_name", ncol = 2) +
-  scale_x_continuous(n.breaks = 8) +
-  labs(title = "Age Specific Fertility Rates")
-
-ggsave(filename = "outputs/plots/asfr_smooth_plot_psug.svg",
-       device = "svg",
-       height = 7,
-       width = 8)
-
-```
-
-
-```{r, echo=FALSE}
-
-sel_cd <- "E09000022"
-sel_yrs <- c(2002, 2011, 2021)
-
-plot_asfr_selected_years(asfr_lad_raw, sel_cd, sel_yrs)
-plot_asfr_selected_years(asfr_lad_smooth, sel_cd, sel_yrs)
-
-```
-
-```{r, echo=FALSE}
-
-sel_cds <- c("E09000012", "E09000027", "E09000005")
-
-plot_asfr_selected_areas(asfr_lad_smooth, sel_cds, sel_yr = 2002)
-plot_asfr_selected_areas(asfr_lad_smooth, sel_cds, sel_yr = 2011)
-plot_asfr_selected_areas(asfr_lad_smooth, sel_cds, sel_yr = 2021)
-
-```
-```{r, echo=FALSE}
-
-sel_cds <- c("E09000022")
-
-plot_asfr_selected_areas(asfr_lad_smooth, sel_cds, sel_yr = 2002)
-plot_asfr_selected_areas(asfr_lad_smooth, sel_cds, sel_yr = 2011)
-plot_asfr_selected_areas(asfr_lad_smooth, sel_cds, sel_yr = 2021)
-
-```
+<br />
 
 
 ```{r}
+# Dummy data for normal distribution
+x <- seq(15, 50, by = 1)
+y <- dnorm(x, mean = 32, sd = 5)
 
-sel_cds <- c("E09000022", "E09000020")
+dummy_fertility_rates <- data.frame(x, y)
 
-asfr_lad_smooth %>%
-  filter(year %in% sel_yrs) %>%
-  filter(gss_code %in% sel_cds) %>%
-  ggplot(aes(x = age, y = fert_rate, colour = gss_name)) +
-  theme_gla(base_size = 14,
-            free_y_facets = TRUE) +
-  geom_line(linewidth = 1, alpha = 0.7) +
-  scale_y_continuous(limits = c(0,NA), n.breaks = 6) +
-  facet_wrap("gss_name", ncol = 2) +
+ggplot(dummy_fertility_rates,
+       aes(
+         x = x,
+         y = y
+       )
+) +
+  theme_gla(base_size = 10) +
+  ggla_line() +
   scale_x_continuous(n.breaks = 8) +
-  labs(title = "Age Specific Fertility Rates",
-       caption = "Source: GLA modelled rates based on ONS births by age of mother") +
-  facet_wrap(c("year"), ncol = 3)
+  labs(title = "Standard Fertility Pattern", subtitle = "")
 
-ggsave(filename = "outputs/asfr_comp_blog.png",
-       device = "png",
-       units = "px",
-       height = 1260,
-       width = 2400)
 ```
+
+But in some countries or local areas, the shape of the fertility curve may deviate from the standard bell-shaped pattern. Instead, it may exhibit a small peak at an earlier age, followed by a more pronounced second peak at a later age. \
+<br />
+The 'distorted fertility pattern' is hypothesied to reflect the reproductive behaviour of subgroups within the population, potentially influenced by variations in marital status, ethnicity or socioeconomic conditions [@chandola_recent_1999; @peristera_modeling_2007]. Once we calculate the raw fertility rates, we apply a smoothing function that accounts for the different fertility patterns across UK local authorities. \
+<br />
+
+### Age-specific fertility rates (ASFR) \
+
+Age-specific fertility rate is a measure of the annual number of births to women of a specified age or age group. The age-specific fertility rate is calculated by dividing the number of births to females in a given age group by the number of females in that age group. \
+
+<br />
+
+We consider age 15 to 49 as childbearing years. \
+
+<br />
+
+$$\text{}_{n}{ASFR}_{x} = \frac {{}_{n}B_{x}}{{}_{n}FP_{x}}$$ 
+<br />
+
+Where: \
+$B$ is the number of births. \
+$FP$ is the female population. \
+$n$ is the starting age of the age group. \
+$x$ is the end age of the age group. \
+
+<br />
 
 ```{r}
 
+plot_asfr_multiple_areas_and_years(asfr_data = asfr_lad_raw, 
+                                   lad_codes = lad_codes, 
+                                   years = years, 
+                                   ncols = 3, 
+                                   label_group = "gss_name", 
+                                   title = "Raw Age-Specific Fertility Rates")
+
+```
+
+<br />
+
+The double-peaked Hadwiger mixture function is then applied to the raw age-specific fertility rate estimates to reduce noise [@chandola_recent_1999]. \
+
+$$f(x) = am \left( \frac{b_1}{c_1} \right) \left( \frac{c_1}{x} \right)^\frac{3}{2} \exp \left\{ {-b_1}^2 \left( \frac{c_1}{x} + \frac{x}{c_1} - 2 \right) \right\} + (1 + m) \left( \frac{b_2}{c_2} \right) \left( \frac{c_2}{x} \right)^\frac{3}{2} \exp \left\{{-b_2}^2 \left( \frac{c_2}{x} + \frac{x}{c_2} - 2 \right) \right\}$$
+Where: \
+$a$ scaling factor, correlated with total fertility \
+$m$ mixture weight between 2 components (between 0 and 1) \
+$x$ is age of the mother at birth \
+$b_1$, $c_1$ are associated with the maximum age-specific fertility rate in the first peak and the  average age of the mother in the first peak, respectively \
+$b_2$, $c_2$ as above but for the second peak \
+
+<br />
+
+A Levenberg-Marquardt Nonlinear Least-Squares algorithm is used to fit a curve to each set of data, with
+starting points chosen based on previously fitted curves from 2011. Convergence tests are described in the
+[minpack.lm package documentation](https://cran.r-project.org/web/packages/minpack.lm/minpack.lm.pdf). The parameters of the fitted curve are then used to calculate new smooth rates for each age. \
+
+<br />
+
+
+```{r}
+
+plot_asfr_multiple_areas_and_years(asfr_data = asfr_lad_smooth, 
+                                   lad_codes = lad_codes, 
+                                   years = years, 
+                                   ncols = 3, 
+                                   label_group = "gss_name", 
+                                   title = "Smooth Age-Specific Fertility Rates")
 
 
 ```
 
+
+### Total Fertility Rate (TFR)
+
+Total fertility rate is the sum of all age-specific fertility rate. As ASFRs have been calculated for one-year group, the TFR is calculated as: \
+
+<br />
+
+$$TFR = \sum {}_{n}ASFR_x $$
+<br />
+
+TFR can be interpreted as the number of lifetime births per woman. In the example below we can observe the overall decline in total fertility rates over time, where the number of children per women in all four local authorities declined. Hackney had the most significant decrease, from 1.7 in 1993 to 1.1 in 2023.
+
+<br />
+
+```{r}
+
+lad_codes <- c("E09000012", "E09000027", "E09000009", "E09000011")
+start_year <- min(total_fertility_rates$year)
+end_year <- max(total_fertility_rates$year)
+
+plot_tfr_selected_areas(tfr_data = total_fertility_rates, 
+                        lad_code = lad_codes, 
+                        years = c(start_year:end_year))
+
+```
+
+### References \
