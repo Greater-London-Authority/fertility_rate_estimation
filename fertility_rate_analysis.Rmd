@@ -71,7 +71,7 @@ ggplot(dummy_fertility_rates,
 
 ```
 
-But in some countries or local areas, the shape of the fertility curve may deviate from the standard bell-shaped pattern. Instead, it may exhibit a small peak at an earlier age, followed by a more pronounce second peak at a later age. \
+But in some countries or local areas, the shape of the fertility curve may deviate from the standard bell-shaped pattern. Instead, it may exhibit a small peak at an earlier age, followed by a more pronounced second peak at a later age. \
 <br />
 The 'distorted fertility pattern' is hypothesied to reflect the reproductive behaviour of subgroups within the population, potentially influenced by variations in marital status, ethnicity or socioeconomic conditions [@chandola_recent_1999; @peristera_modeling_2007]. Once we calculate the raw fertility rates, we apply a smoothing function that accounts for the different fertility patterns across UK local authorities. \
 <br />
@@ -151,7 +151,7 @@ Total fertility rate is the sum of all age-specific fertility rate. As ASFRs hav
 $$TFR = \sum {}_{n}ASFR_x $$
 <br />
 
-TFR can be interpreted as the number of children per woman. In the example below we can observe the overall decline in total fertility rates overtime, where the number of children per women in all four local authorities declined. Hackney had the most significant decrease, from 1.7 in 1993 to 1.1 in 2023.
+TFR can be interpreted as the number of lifetime births per woman. In the example below we can observe the overall decline in total fertility rates over time, where the number of children per women in all four local authorities declined. Hackney had the most significant decrease, from 1.7 in 1993 to 1.1 in 2023.
 
 <br />
 
