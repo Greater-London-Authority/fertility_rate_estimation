@@ -8,9 +8,9 @@ source("R/functions/clean_midyear_population_estimates.R")
 ###### Step 1: Create global variables ######
 
 file_path <- list(
-  estimates_coc_from_2001 = "data/raw/full_modelled_estimates_series_lad23_from_2001.rds",
-  population_mye_1991_2000_nomis = "data/intermediate/population_mye_1991_2000.rds",
-  population_lad = "data/intermediate/population_lad23.rds"
+  estimates_coc_from_2001 = "data/raw/gla_modelled_backseries_lad_my_from_2001.rds",
+  population_mye_1991_2000_nomis = "data/intermediate/population_estimates_my_1991_2000.rds",
+  population_lad = "data/intermediate/population_lad_my.rds"
 )
 
 

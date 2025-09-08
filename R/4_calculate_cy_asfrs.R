@@ -8,11 +8,10 @@ source("R/functions/smooth_fertility_curve.R")
 ###### Step 1: Create global variables ######
 
 file_path <- list(
-  births_cy = "data/intermediate/births_lad_rgn_cy.rds",
-  population = "data/intermediate/population_lad_rgn.rds",
-  asfr_raw = "data/processed/asfr_cy_raw.rds",
-  asfr_smooth = "data/processed/asfr_cy_smooth.rds",
-  asfr_smooth_csv = "data/processed/asfr_cy_smooth.csv"
+  births_cy = "data/intermediate/births_lad_agg_cy.rds",
+  population = "data/intermediate/population_lad_agg_my.rds",
+  asfr_raw = "data/processed/raw_asfr_lad_agg_cy.rds",
+  asfr_smooth = "data/processed/smooth_asfr_lad_agg_cy.rds"
 )
 
 

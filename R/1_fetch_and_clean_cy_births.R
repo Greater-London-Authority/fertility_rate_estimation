@@ -8,8 +8,8 @@ source("R/functions/split_joint_lads.R")
 ###### Step 1: Create global variables ######
 
 file_path <- list(
-  raw_births_lad_cy1993_2021 = "data/raw/births_by_ageofmother_lad_1993_2021.xlsx",
-  raw_births_lad_cy2022_2023 = "data/raw/births_by_ageofmother_lad_2022_2023.xlsx",
+  raw_births_lad_cy1993_2021 = "data/raw/births_lad_cy_1993_2021.xlsx",
+  raw_births_lad_cy2022_2023 = "data/raw/births_lad_cy_2022_2023.xlsx",
   births_lad_cy = "data/intermediate/births_lad_cy.rds"
 )
 

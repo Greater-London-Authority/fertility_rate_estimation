@@ -23,23 +23,23 @@ get_fertility_rates_estimates_data <- function() {
 
   # Download and clean calendar year births
   message("Step 1 of 4: Downloading and cleaning calendar year births...")
-  source("R/0a_fetch_and_clean_cy_births.R")
+  source("R/1_fetch_and_clean_cy_births.R")
 
   # Download and clean mid-year population from Nomis API
   message(
     "Step 2 of 4: Downloading and cleaning mid-year population data from Nomis API..."
   )
   message("Please wait as it takes a few moments...")
-  source("R/0b_fetch_and_clean_mye_population.R")
+  source("R/2_fetch_and_clean_mye_population.R")
 
   # Aggregate by region / country / international territory
   message("Step 3 of 4: Aggregating data by region...")
   message("")
-  source("R/0c_aggregate_lad_data.R")
+  source("R/3_aggregate_lad_data.R")
 
   # Create estimates, age-specific fertility rates and curve fitting
   message("Step 4 of 4: Calculating age-specific fertility rates...")
   message("")
-  source("R/1_calculate_cy_asfrs.R")
+  source("R/4_calculate_cy_asfrs.R")
   message("Done!")
 }

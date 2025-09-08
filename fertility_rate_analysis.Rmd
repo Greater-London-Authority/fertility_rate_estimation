@@ -16,8 +16,8 @@ source("R/functions/plots.R")
 
 ```{r}
 # Read in raw and smooth fertility rates
-asfr_lad_smooth <- readRDS("data/processed/asfr_cy_smooth.rds")
-asfr_lad_raw <- readRDS("data/processed/asfr_cy_raw.rds")
+asfr_lad_smooth <- readRDS("data/processed/smooth_asfr_lad_agg_cy.rds")
+asfr_lad_raw <- readRDS("data/processed/raw_asfr_lad_agg_cy.rds")
 
 
 # Set global variables
