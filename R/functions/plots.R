@@ -11,9 +11,6 @@ library(gglaplot)
 #' @param age_range A integer vector.
 #' @param title A string, the title.
 #' @param subtitle A string, the subtitle.
-#' @param save_plot A Boolean, TRUE to save the plot.
-#' @param file_extension A string, can be "eps", "ps", "tex" (pictex), "pdf", "jpeg", "tiff", "png", "bmp", "svg" or "wmf" (windows only).
-#' @param file_name A string, default is to use the function's name.
 #' @returns A plot from `ggplot2`
 plot_asfr_selected_years <- function(
   asfr_data,
@@ -21,10 +18,7 @@ plot_asfr_selected_years <- function(
   years = c(2001, 2006, 2011, 2016, 2021),
   age_range = c(15, 49),
   title = "Age-Specific Fertility Rates (ASFR)",
-  subtitle = "Fertility rates by age of mother",
-  save_plot = FALSE,
-  file_extension = "png",
-  file_name = "plot_tfr_selected_areas"
+  subtitle = "Fertility rates by age of mother"
 ) {
   lad_name <- asfr_data %>%
     filter(gss_code == lad_code) %>%
@@ -48,17 +42,7 @@ plot_asfr_selected_years <- function(
       caption = "Source: GLA modelled rates based on ONS births by age of mother"
     )
 
-  if (save_plot) {
-    ggsave(
-      filename = paste0("outputs/plots/", file_name, ".", file_extension),
-      device = file_extension,
-      height = 7,
-      width = 8
-    )
-    return(out_plot)
-  } else {
-    return(out_plot)
-  }
+  return(out_plot)
 }
 
 
@@ -70,9 +54,6 @@ plot_asfr_selected_years <- function(
 #' @param age_range A integer vector.
 #' @param title A string, the title.
 #' @param subtitle A string, the subtitle.
-#' @param save_plot A Boolean, TRUE to save the plot.
-#' @param file_extension A string, can be "eps", "ps", "tex" (pictex), "pdf", "jpeg", "tiff", "png", "bmp", "svg" or "wmf" (windows only).
-#' @param file_name A string, default is to use the function's name.
 #' @returns A plot from `ggplot2`
 plot_asfr_selected_areas <- function(
   asfr_data,
@@ -80,10 +61,7 @@ plot_asfr_selected_areas <- function(
   year = 2021,
   age_range = c(15, 49),
   title = "Age-Specific Fertility Rates (ASFR)",
-  subtitle = "Fertility rates by age of mother",
-  save_plot = FALSE,
-  file_extension = "png",
-  file_name = "plot_tfr_selected_areas"
+  subtitle = "Fertility rates by age of mother"
 ) {
   out_plot <- asfr_data %>%
     filter(
@@ -100,18 +78,7 @@ plot_asfr_selected_areas <- function(
       subtitle = subtitle,
       caption = "Source: GLA modelled rates based on ONS births by age of mother"
     )
-
-  if (save_plot) {
-    ggsave(
-      filename = paste0("outputs/plots/", file_name, ".", file_extension),
-      device = file_extension,
-      height = 7,
-      width = 8
-    )
-    return(out_plot)
-  } else {
-    return(out_plot)
-  }
+  return(out_plot)
 }
 
 
@@ -124,9 +91,6 @@ plot_asfr_selected_areas <- function(
 #' @param label_group A string, creates group label by local authority or year. Only takes two values `gss_code` or `year`.
 #' @param title A string, the title.
 #' @param subtitle A string, the subtitle.
-#' @param save_plot A Boolean, TRUE to save the plot.
-#' @param file_extension A string, can be "eps", "ps", "tex" (pictex), "pdf", "jpeg", "tiff", "png", "bmp", "svg" or "wmf" (windows only).
-#' @param file_name A string, default is to use the function's name.
 #' @returns A plot from `ggplot2`
 plot_asfr_multiple_areas_and_years <- function(
   asfr_data,
@@ -135,10 +99,7 @@ plot_asfr_multiple_areas_and_years <- function(
   ncols,
   label_group,
   title = "Age-Specific Fertility Rates (ASFR)",
-  subtitle = "Fertility rates by age of mother",
-  save_plot = FALSE,
-  file_extension = "png",
-  file_name = "plot_asfr_multiple_areas_and_years"
+  subtitle = "Fertility rates by age of mother"
 ) {
   if (!label_group %in% c("gss_name", "year")) {
     stop(
@@ -189,18 +150,7 @@ plot_asfr_multiple_areas_and_years <- function(
         caption = "Source: GLA modelled rates based on ONS births by age of mother"
       )
   }
-
-  if (save_plot) {
-    ggsave(
-      filename = paste0("outputs/plots/", file_name, ".", file_extension),
-      device = file_extension,
-      height = 7,
-      width = 8
-    )
-    return(out_plot)
-  } else {
-    return(out_plot)
-  }
+  return(out_plot)
 }
 
 
@@ -211,19 +161,13 @@ plot_asfr_multiple_areas_and_years <- function(
 #' @param years A numeric vector, the period to plot.
 #' @param title A string, the title.
 #' @param subtitle A string, the subtitle.
-#' @param save_plot A Boolean, TRUE to save the plot.
-#' @param file_extension A string, can be "eps", "ps", "tex" (pictex), "pdf", "jpeg", "tiff", "png", "bmp", "svg" or "wmf" (windows only).
-#' @param file_name A string, default is to use the function's name.
 #' @returns A plot from `ggplot2`
 plot_tfr_selected_areas <- function(
   tfr_data,
   lad_codes,
   years,
   title = "Total Fertility Rates (TFR)",
-  subtitle = "Fertility rates by age of mother",
-  save_plot = FALSE,
-  file_extension = "png",
-  file_name = "plot_tfr_selected_areas"
+  subtitle = "Fertility rates by age of mother"
 ) {
   out_plot <- tfr_data %>%
     filter(source == "smoothed") %>%
@@ -238,16 +182,5 @@ plot_tfr_selected_areas <- function(
       subtitle = subtitle,
       caption = "Source: GLA modelled rates based on ONS births by age of mother"
     )
-
-  if (save_plot) {
-    ggsave(
-      filename = paste0("outputs/plots/", file_name, ".", file_extension),
-      device = file_extension,
-      height = 7,
-      width = 8
-    )
-    return(out_plot)
-  } else {
-    return(out_plot)
-  }
+  return(out_plot)
 }
