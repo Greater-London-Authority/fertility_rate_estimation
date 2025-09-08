@@ -79,11 +79,6 @@ births_lad_cy2022_2023 <- split_joint_lads(
 
 births_lad_cy <- bind_rows(births_lad_cy1993_2021, births_lad_cy2022_2023)
 
-rm(
-  births_lad_cy1993_2021,
-  births_lad_cy2022_2023
-)
-
 saveRDS(births_lad_cy, file_path$births_lad_cy)
 
 rm(list = ls())
