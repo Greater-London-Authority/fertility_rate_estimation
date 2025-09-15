@@ -12,7 +12,7 @@ To avoid path issues, open the R project `fertility_rate_estimation.Rproj`.
 
 Packages and dependencies are managed via `renv`. The `R/run_all` script begins with `renv::restore()`, to ensure that all the necessary packages are installed.
 
-Inside the same file run `get_fertility_rate_estimates_data()` to download and process all required data, and calculate fertility estimates. All the ouputs will be saved in the `data` directory, which is then further divided into `raw`, `intermediate` and `processed`. The final outputs containing the raw and smooth fertility rate estimates will be saved under the `processed` directory.
+Inside the same file, run `get_fertility_rate_estimates_data()` to download and process all required data, and calculate fertility estimates. All the ouputs will be saved in the `data` directory, which is then further divided into `raw`, `intermediate` and `processed`. The final outputs containing the raw and smooth fertility rate estimates will be saved under the `processed` directory.
 
 ### Technical notes and methodology
 
@@ -69,9 +69,9 @@ Both datasets are then aggregated by region, country, inner/outer London and Int
 
 Raw and smooth fertility rates are calculated using calendar-year births by age of mother and population estimates for the period. Both datasets will contain:
 
-*gss_code* - local authority district code \
+*gss_code* - local authority district code
 *gss_name* - local authority name \
-*age* - age of mother, 15 to 49 years \ 
+*age* - age of mother, 15 to 49 years \
 *sex* - female \
 *year* - calendar year \
 *geography* - administrative division, e.g., local authority 2023 boundaries (LAD23), country (CTRY), region (RGN) \
