@@ -50,7 +50,7 @@ data/*
 !data/README*
 outputs/*
 *.html
-images/* 
+images/*
 
 # Renv files & directories
 renv/library/*
