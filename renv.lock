@@ -1525,11 +1525,10 @@
       ],
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
-      "RemoteRepo": "gsscoder",
       "RemoteUsername": "Greater-London-Authority",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "d4d495213887d2df4efa4f0918028777f315ecc5",
-      "NeedsCompilation": "no"
+      "RemoteRepo": "gsscoder",
+      "RemoteRef": "main",
+      "RemoteSha": "18d787d1bde6a15a56f3e18eb0aadf78f4b50c5c"
     },
     "gtable": {
       "Package": "gtable",
