@@ -87,6 +87,7 @@ All unit tests are in `tests/testthat`. Run `testthat::test_dir("tests/testthat"
 
 * Ben Corr
 * Marta Lapsley
+* Izabel Bahia
 
 ## Contact
 

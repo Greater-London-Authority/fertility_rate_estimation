@@ -1,6 +1,6 @@
 ---
 title: "Fertility Rate Estimates"
-author: "Ben Corr - Greater London Authority"
+author: "Demography - Greater London Authority"
 date: "`r format(Sys.time(), '%d/%m/%Y')`"
 output: html_document
 bibliography: references.bib
