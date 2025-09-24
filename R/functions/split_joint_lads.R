@@ -88,7 +88,7 @@ calculate_current_births_for_joint_lads <- function(
 }
 
 
-#' Calculate proportional births for joint local authories using past data
+#' Calculate proportional births for joint local authorities using past data
 #'
 #' @param past_data A data frame.
 #' @param separated_codes A list of character vectors.
