@@ -112,7 +112,7 @@ plot_asfr_multiple_areas_and_years(asfr_data = asfr_lad_raw,
 
 The double-peaked Hadwiger mixture function is then applied to the raw age-specific fertility rate estimates to reduce noise [@chandola_recent_1999]. \
 
-$$f(x) = am \left( \frac{b_1}{c_1} \right) \left( \frac{c_1}{x} \right)^\frac{3}{2} \exp \left\{ {-b_1}^2 \left( \frac{c_1}{x} + \frac{x}{c_1} - 2 \right) \right\} + (1 + m) \left( \frac{b_2}{c_2} \right) \left( \frac{c_2}{x} \right)^\frac{3}{2} \exp \left\{{-b_2}^2 \left( \frac{c_2}{x} + \frac{x}{c_2} - 2 \right) \right\}$$
+$$f(x) = am \left( \frac{b_1}{c_1} \right) \left( \frac{c_1}{x} \right)^\frac{3}{2} \exp \left\{ {-b_1}^2 \left( \frac{c_1}{x} + \frac{x}{c_1} - 2 \right) \right\} + (1 - m) \left( \frac{b_2}{c_2} \right) \left( \frac{c_2}{x} \right)^\frac{3}{2} \exp \left\{{-b_2}^2 \left( \frac{c_2}{x} + \frac{x}{c_2} - 2 \right) \right\}$$
 Where: \
 $a$ scaling factor, correlated with total fertility \
 $m$ mixture weight between 2 components (between 0 and 1) \
