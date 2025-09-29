@@ -20,8 +20,8 @@ Once all outputs have been created and are saved under `data/processed`, run `rm
 
 Several plots can be adapted to display raw and smooth age-specific fertility rates and total fertility rates for selected years and/or local authorities of interest.
 
-<img src="images/smooth_asfr_example.png" alt="Alt Text" width="600" height="300">
-<img src="images/tfr_example.png" alt="Alt Text" width="600" height="300">
+<img src="images/smooth_asfr_example.png" alt="Alt Text" width="500" height="300">
+<img src="images/tfr_example.png" alt="Alt Text" width="480" height="300">
 
 ### Requirements
 
