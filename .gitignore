@@ -49,3 +49,9 @@ rsconnect/
 data/*
 !data/README*
 outputs/*
+*.html
+images/*
+
+# Renv files & directories
+renv/library/*
+renv/staging/*
