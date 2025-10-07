@@ -18,26 +18,12 @@ source("R/functions/plots.R")
 # Read in raw and smooth fertility rates
 asfr_lad_smooth <- readRDS("data/processed/smooth_asfr_lad_agg_cy.rds")
 asfr_lad_raw <- readRDS("data/processed/raw_asfr_lad_agg_cy.rds")
+total_fertility_rates <- readRDS("data/processed/tfr_lad_agg_cy.rds")
 
 
 # Set global variables
 lad_codes <- c("E09000022", "E12000007", "E92000001")
 years <- c(2002, 2011, 2021)
-
-
-# Create total fertility rates
-total_fertility_rates <- bind_rows(
-  
-  asfr_lad_smooth %>%
-    group_by(gss_code, gss_name, year, geography) %>%
-    summarise(tfr = sum(fertility_rate), .groups = "drop") %>%
-    mutate(source = "smoothed"),
-  
-  asfr_lad_raw %>%
-    group_by(gss_code, gss_name, year, geography) %>%
-    summarise(tfr = sum(fertility_rate), .groups = "drop") %>%
-    mutate(source = "raw")
-)
 
 ```
 <br />
