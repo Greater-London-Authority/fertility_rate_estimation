@@ -46,7 +46,6 @@ lds_patch_dataset(
 
 # Transform rds data into csv
 write.csv(readRDS("data/processed/smooth_asfr_lad_agg_cy.rds"), "smooth_asfr_lad_agg_cy.csv", row.names = FALSE)
-write.csv(readRDS("data/processed/smooth_asfr_lad_agg_cy.rds"), "raw_asfr_lad_agg_cy.csv", row.names = FALSE)
 write.csv(readRDS("data/processed/tfr_lad_agg_cy.rds"), "tfr_lad_agg_cy.csv", row.names = FALSE)
 
 # Create list of resources which need to be uploaded and their descriptions
