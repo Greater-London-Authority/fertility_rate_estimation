@@ -45,8 +45,8 @@ lds_patch_dataset(
 # 2.2 Add all resources to the dataset
 
 # Transform rds data into csv
-write.csv(readRDS("data/processed/smooth_asfr_lad_agg_cy.rds"), "smooth_asfr_lad_agg_cy.csv", row.names = FALSE)
-write.csv(readRDS("data/processed/tfr_lad_agg_cy.rds"), "tfr_lad_agg_cy.csv", row.names = FALSE)
+write.csv(readRDS("data/processed/smooth_asfr_lad_agg_cy.rds"), "data/processed/smooth_asfr_lad_agg_cy.csv", row.names = FALSE)
+write.csv(readRDS("data/processed/tfr_lad_agg_cy.rds"), "data/processed/tfr_lad_agg_cy.csv", row.names = FALSE)
 
 # Create list of resources which need to be uploaded and their descriptions
 datastore_resources_list <-
