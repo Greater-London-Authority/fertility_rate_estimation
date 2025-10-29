@@ -1,0 +1,113 @@
+---
+title: "Fertility Rate Estimates"
+output:
+  html_document: default
+always_allow_html: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+source("R/functions/plots.R")
+
+```
+
+```{r}
+# Read in raw and smooth fertility rates
+asfr_lad_smooth <- readRDS("data/processed/smooth_asfr_lad_agg_cy.rds")
+asfr_lad_raw <- readRDS("data/processed/raw_asfr_lad_agg_cy.rds")
+
+# Create total fertility rates
+total_fertility_rates <- readRDS("data/processed/tfr_lad_agg_cy.rds")
+
+```
+<br />
+
+### Introduction to fertility estimates \
+
+Fertility refers to the number of live births within an individual or group, influenced by a combination of biological, social, cultural, and economic factors. At the GLA, we produce age-specific and total fertility rate estimates for each local authority and higher level geography in England and Wales. These estimates are a key input into our annual population estimates. \
+
+More information on how age-specific and total fertility rates are calculate and project methodology can be found in our technical notes below.
+
+The codebase for this project is [available on GitHub](https://github.com/Greater-London-Authority/fertility_rate_estimation/tree/main). All the requirements and information necessary to run the analysis can be found in the README file.
+
+### The data \
+
+The data used to calculate fertility rate estimates are:
+
+- ONS calendar year births by age of mother from 1993
+- ONS mid-year population estimates from 1991 - 2000
+- GLA estimates components of change modelled backseries from 2000
+
+After processing the data, we calculate age-specific fertility rates for each local authority and higher level geographies in England and Wales. Finally, we apply a smoothing function to the fertility rates to reduce noise.
+
+Age-specific fertility rates are then added to obtain total fertility rates. \
+
+The snapshot below is extracted from the age-specific fertility rates output:
+
+```{r, echo=FALSE, message=FALSE, results="asis", warning=FALSE}
+
+top_row <- asfr_lad_smooth %>% filter(gss_code == "E09000028" & year == 1995) %>% head(4)
+bottom_row <- asfr_lad_smooth %>% filter(gss_code == "E09000028" & year == 2023) %>% tail(2)
+top_row[] <- lapply(top_row, as.character)
+bottom_row[] <- lapply(bottom_row, as.character)
+
+bottom_row[1,] <- "..."
+top_row[1,] <- "..."
+table <- bind_rows(top_row, bottom_row)
+
+table %>% kableExtra::kable(caption = "smooth_asfr_lad_agg_cy.rds") %>% 
+  kableExtra::kable_styling(font_size = 13)
+
+```
+
+From the age-specific fertility rates, we calculate total fertility rates:
+
+```{r, echo=FALSE, message=FALSE, results="asis", warning=FALSE}
+
+top_row <- total_fertility_rates %>% filter(gss_code == "E09000028" & year %in% c(1993, 1994, 1995, 1996) & source != "raw")
+bottom_row <- total_fertility_rates %>% filter(gss_code == "E09000028" & year %in% c(2022, 2023) & source == "raw")
+top_row[] <- lapply(top_row, as.character)
+bottom_row[] <- lapply(bottom_row, as.character)
+
+bottom_row[1,] <- "..."
+top_row[1,] <- "..."
+table <- bind_rows(top_row, bottom_row)
+
+table %>% kableExtra::kable(caption = "tfr_lad_agg_cy.csv") %>% 
+  kableExtra::kable_styling(font_size = 13)
+
+
+```
+
+### Analysis \
+
+The output can then be plotted in various ways. If users are familiar with R, our [GitHub repository]((https://github.com/Greater-London-Authority/fertility_rate_estimation/tree/main)) has all the functionality necessary for users to plot age-specific and total fertility rates across local authorities and periods of interest.
+
+
+```{r dpi=300}
+lad_codes <- c("E09000012", "E09000027", "E09000009", "E09000011")
+years <- c(2003, 2013, 2023)
+
+plot_asfr_multiple_areas_and_years(asfr_data = asfr_lad_smooth, 
+                                   lad_codes = lad_codes, 
+                                   years = years, 
+                                   ncols = 3, 
+                                   label_group = "gss_name", 
+                                   title = "Smooth Age-Specific Fertility Rates")
+
+```
+
+
+```{r dpi=300}
+
+start_year <- min(total_fertility_rates$year)
+end_year <- max(total_fertility_rates$year)
+
+plot_tfr_selected_areas(tfr_data = total_fertility_rates, 
+                        lad_code = lad_codes, 
+                        years = c(start_year:end_year))
+
+```
+
+

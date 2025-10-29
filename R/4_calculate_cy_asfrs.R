@@ -11,7 +11,8 @@ file_path <- list(
   births_cy = "data/intermediate/births_lad_agg_cy.rds",
   population = "data/intermediate/population_lad_agg_my.rds",
   asfr_raw = "data/processed/raw_asfr_lad_agg_cy.rds",
-  asfr_smooth = "data/processed/smooth_asfr_lad_agg_cy.rds"
+  asfr_smooth = "data/processed/smooth_asfr_lad_agg_cy.rds",
+  tfr = "data/processed/tfr_lad_agg_cy.rds"
 )
 
 
@@ -42,5 +43,21 @@ smooth_fertility_rates <- smooth_list %>%
   select(-c(fitting_status))
 
 saveRDS(smooth_fertility_rates, file_path$asfr_smooth)
+
+# Create total fertility rates
+total_fertility_rates <- bind_rows(
+
+  asfr_lad_smooth %>%
+    group_by(gss_code, gss_name, year, geography) %>%
+    summarise(tfr = sum(fertility_rate), .groups = "drop") %>%
+    mutate(source = "smoothed"),
+
+  asfr_lad_raw %>%
+    group_by(gss_code, gss_name, year, geography) %>%
+    summarise(tfr = sum(fertility_rate), .groups = "drop") %>%
+    mutate(source = "raw")
+)
+
+saveRDS(total_fertility_rates, file_path$tfr)
 
 rm(list = ls())
