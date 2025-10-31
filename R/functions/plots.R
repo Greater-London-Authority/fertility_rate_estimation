@@ -170,7 +170,6 @@ plot_tfr_selected_areas <- function(
   subtitle = "Fertility rates by age of mother"
 ) {
   out_plot <- tfr_data %>%
-    filter(source == "smoothed") %>%
     filter(gss_code %in% lad_codes) %>%
     ggplot(aes(x = year, y = tfr, colour = gss_name)) +
     theme_gla(base_size = 10) +
