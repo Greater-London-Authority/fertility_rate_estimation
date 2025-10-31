@@ -205,7 +205,8 @@
       "Description": "Provides color schemes for maps (and other graphics) designed by Cynthia Brewer as described at http://colorbrewer2.org.",
       "License": "Apache License 2.0",
       "NeedsCompilation": "no",
-      "Repository": "CRAN"
+      "Repository": "CRAN",
+      "Encoding": "UTF-8"
     },
     "Rcpp": {
       "Package": "Rcpp",
@@ -295,7 +296,8 @@
       "NeedsCompilation": "yes",
       "Author": "CRAN Team [ctb, cre] (de facto maintainer since 2013), Duncan Temple Lang [aut] (<https://orcid.org/0000-0003-0159-1546>), Tomas Kalibera [ctb]",
       "Maintainer": "CRAN Team <CRAN@r-project.org>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "askpass": {
       "Package": "askpass",
@@ -342,7 +344,8 @@
       "NeedsCompilation": "no",
       "Author": "Hadley Wickham [aut, cre]",
       "Maintainer": "Hadley Wickham <hadley@rstudio.com>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "backports": {
       "Package": "backports",
@@ -383,7 +386,8 @@
       "License": "GPL-2 | GPL-3",
       "URL": "http://www.rforge.net/base64enc",
       "NeedsCompilation": "yes",
-      "Repository": "CRAN"
+      "Repository": "CRAN",
+      "Encoding": "UTF-8"
     },
     "bit": {
       "Package": "bit",
@@ -641,15 +645,14 @@
         "knitr",
         "rmarkdown"
       ],
+      "Author": "Jean-Olivier Irisson [aut, cre], Gregor Aisch [aut]",
+      "Maintainer": "Jean-Olivier Irisson <irisson@normalesup.org>",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "chroma",
       "RemoteUsername": "Greater-London-Authority",
       "RemoteRef": "HEAD",
-      "RemoteSha": "17a1f779a471f7b7765d2088415854a7a760aee7",
-      "NeedsCompilation": "no",
-      "Author": "Jean-Olivier Irisson [aut, cre], Gregor Aisch [aut]",
-      "Maintainer": "Jean-Olivier Irisson <irisson@normalesup.org>"
+      "RemoteSha": "17a1f779a471f7b7765d2088415854a7a760aee7"
     },
     "class": {
       "Package": "class",
@@ -789,30 +792,6 @@
       "NeedsCompilation": "no",
       "Author": "Matthew Lincoln [aut, cre] (<https://orcid.org/0000-0002-4387-3384>), Louis Maddox [ctb], Steve Simpson [ctb], Jennifer Bryan [ctb]",
       "Maintainer": "Matthew Lincoln <matthew.d.lincoln@gmail.com>",
-      "Repository": "CRAN"
-    },
-    "commonmark": {
-      "Package": "commonmark",
-      "Version": "2.0.0",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "High Performance CommonMark and Github Markdown Rendering in R",
-      "Authors@R": "c( person(\"Jeroen\", \"Ooms\", ,\"jeroenooms@gmail.com\", role = c(\"aut\", \"cre\"), comment = c(ORCID = \"0000-0002-4035-0289\")), person(\"John MacFarlane\", role = \"cph\", comment = \"Author of cmark\"))",
-      "Description": "The CommonMark specification <https://github.github.com/gfm/> defines a rationalized version of markdown syntax. This package uses the 'cmark'  reference implementation for converting markdown text into various formats including html, latex and groff man. In addition it exposes the markdown parse tree in xml format. Also includes opt-in support for GFM extensions including tables, autolinks, and strikethrough text.",
-      "License": "BSD_2_clause + file LICENSE",
-      "URL": "https://docs.ropensci.org/commonmark/ https://ropensci.r-universe.dev/commonmark",
-      "BugReports": "https://github.com/r-lib/commonmark/issues",
-      "Suggests": [
-        "curl",
-        "testthat",
-        "xml2"
-      ],
-      "RoxygenNote": "7.3.2",
-      "Language": "en-US",
-      "Encoding": "UTF-8",
-      "NeedsCompilation": "yes",
-      "Author": "Jeroen Ooms [aut, cre] (ORCID: <https://orcid.org/0000-0002-4035-0289>), John MacFarlane [cph] (Author of cmark)",
-      "Maintainer": "Jeroen Ooms <jeroenooms@gmail.com>",
       "Repository": "CRAN"
     },
     "cpp11": {
@@ -1115,7 +1094,8 @@
       "NeedsCompilation": "yes",
       "Author": "David Meyer [aut, cre] (<https://orcid.org/0000-0002-5196-3048>), Evgenia Dimitriadou [aut, cph], Kurt Hornik [aut] (<https://orcid.org/0000-0003-4198-9911>), Andreas Weingessel [aut], Friedrich Leisch [aut], Chih-Chung Chang [ctb, cph] (libsvm C++-code), Chih-Chen Lin [ctb, cph] (libsvm C++-code)",
       "Maintainer": "David Meyer <David.Meyer@R-project.org>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "evaluate": {
       "Package": "evaluate",
@@ -1340,20 +1320,19 @@
         "lubridate",
         "scales"
       ],
-      "Remotes": "Greater-London-Authority/chroma",
       "VignetteBuilder": "knitr",
       "RoxygenNote": "7.1.1",
       "URL": "https://github.com/Greater-London-Authority/gglaplot",
       "BugReports": "https://github.com/Greater-London-Authority/gglaplot/issues",
+      "Author": "Libby Rogers [aut, cre], Mike Brondbjerg [aut, art], Marta Lapsley [ctb]",
+      "Maintainer": "Libby Rogers <Libby.Rogers@london.gov.uk>",
       "RemoteType": "github",
+      "Remotes": "Greater-London-Authority/chroma",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "gglaplot",
       "RemoteUsername": "Greater-London-Authority",
       "RemoteRef": "HEAD",
-      "RemoteSha": "cef98ef8687e61bf38e5564198b8033a34a7023e",
-      "NeedsCompilation": "no",
-      "Author": "Libby Rogers [aut, cre], Mike Brondbjerg [aut, art], Marta Lapsley [ctb]",
-      "Maintainer": "Libby Rogers <Libby.Rogers@london.gov.uk>"
+      "RemoteSha": "cef98ef8687e61bf38e5564198b8033a34a7023e"
     },
     "ggplot2": {
       "Package": "ggplot2",
@@ -1530,7 +1509,8 @@
       "NeedsCompilation": "no",
       "Author": "Paul Murrell [cre, aut], Zhijian Wen [aut]",
       "Maintainer": "Paul Murrell <paul@stat.auckland.ac.nz>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "gsscoder": {
       "Package": "gsscoder",
@@ -1999,7 +1979,8 @@
         "stats",
         "graphics"
       ],
-      "Repository": "CRAN"
+      "Repository": "CRAN",
+      "Encoding": "UTF-8"
     },
     "later": {
       "Package": "later",
@@ -2096,46 +2077,8 @@
       "NeedsCompilation": "yes",
       "Author": "Hadley Wickham [aut, cre], RStudio [cph]",
       "Maintainer": "Hadley Wickham <hadley@rstudio.com>",
-      "Repository": "CRAN"
-    },
-    "ldndatar": {
-      "Package": "ldndatar",
-      "Version": "0.2.2",
-      "Source": "GitHub",
-      "Type": "Package",
-      "Title": "Tools for working with London Data in R",
-      "Author": "c(person(\"Libby\", \"Rogers\", email = \"Libby.Rogers@london.gov.uk\"\"))",
-      "Description": "The package provides functions that work with the API of the [London Datastore](https://data.london.gov.uk/)",
-      "License": "GPL-3",
-      "Encoding": "UTF-8",
-      "Imports": [
-        "checkmate",
-        "dplyr",
-        "stringr",
-        "httr",
-        "base",
-        "rmarkdown",
-        "markdown",
-        "knitr",
-        "utils",
-        "stats",
-        "lubridate",
-        "jsonlite",
-        "tidyr",
-        "rlang"
-      ],
-      "Suggests": [
-        "testthat (>= 2.1.0)"
-      ],
-      "VignetteBuilder": "knitr",
-      "RoxygenNote": "7.1.1",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteRepo": "ldndatar",
-      "RemoteUsername": "Greater-London-Authority",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "c04c6abf51043dd6f3b68e67f7a85d7b44bc7994",
-      "NeedsCompilation": "no"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "lifecycle": {
       "Package": "lifecycle",
@@ -2177,38 +2120,6 @@
       "Author": "Lionel Henry [aut, cre], Hadley Wickham [aut] (<https://orcid.org/0000-0003-4757-117X>), Posit Software, PBC [cph, fnd]",
       "Maintainer": "Lionel Henry <lionel@posit.co>",
       "Repository": "CRAN"
-    },
-    "litedown": {
-      "Package": "litedown",
-      "Version": "0.7",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "A Lightweight Version of R Markdown",
-      "Authors@R": "c( person(\"Yihui\", \"Xie\", role = c(\"aut\", \"cre\"), email = \"xie@yihui.name\", comment = c(ORCID = \"0000-0003-0645-5666\", URL = \"https://yihui.org\")), person(\"Tim\", \"Taylor\", role = \"ctb\", comment = c(ORCID = \"0000-0002-8587-7113\")), person() )",
-      "Description": "Render R Markdown to Markdown (without using 'knitr'), and Markdown to lightweight HTML or 'LaTeX' documents with the 'commonmark' package (instead of 'Pandoc'). Some missing Markdown features in 'commonmark' are also supported, such as raw HTML or 'LaTeX' blocks, 'LaTeX' math, superscripts, subscripts, footnotes, element attributes, and appendices, but not all 'Pandoc' Markdown features are (or will be) supported. With additional JavaScript and CSS, you can also create HTML slides and articles. This package can be viewed as a trimmed-down version of R Markdown and 'knitr'. It does not aim at rich Markdown features or a large variety of output formats (the primary formats are HTML and 'LaTeX'). Book and website projects of multiple input documents are also supported.",
-      "Depends": [
-        "R (>= 3.2.0)"
-      ],
-      "Imports": [
-        "utils",
-        "commonmark (>= 1.9.5)",
-        "xfun (>= 0.52)"
-      ],
-      "Suggests": [
-        "rbibutils",
-        "rstudioapi",
-        "tinytex"
-      ],
-      "License": "MIT + file LICENSE",
-      "URL": "https://github.com/yihui/litedown",
-      "BugReports": "https://github.com/yihui/litedown/issues",
-      "VignetteBuilder": "litedown",
-      "RoxygenNote": "7.3.2",
-      "Encoding": "UTF-8",
-      "NeedsCompilation": "no",
-      "Author": "Yihui Xie [aut, cre] (<https://orcid.org/0000-0003-0645-5666>, https://yihui.org), Tim Taylor [ctb] (<https://orcid.org/0000-0002-8587-7113>)",
-      "Maintainer": "Yihui Xie <xie@yihui.name>",
-      "Repository": "RSPM"
     },
     "lubridate": {
       "Package": "lubridate",
@@ -2286,38 +2197,6 @@
       "Author": "Stefan Milton Bache [aut, cph] (Original author and creator of magrittr), Hadley Wickham [aut], Lionel Henry [cre], RStudio [cph, fnd]",
       "Maintainer": "Lionel Henry <lionel@rstudio.com>",
       "Repository": "CRAN"
-    },
-    "markdown": {
-      "Package": "markdown",
-      "Version": "2.0",
-      "Source": "Repository",
-      "Type": "Package",
-      "Title": "Render Markdown with 'commonmark'",
-      "Authors@R": "c( person(\"Yihui\", \"Xie\", role = c(\"aut\", \"cre\"), email = \"xie@yihui.name\", comment = c(ORCID = \"0000-0003-0645-5666\")), person(\"JJ\", \"Allaire\", role = \"aut\"), person(\"Jeffrey\", \"Horner\", role = \"aut\"), person(\"Henrik\", \"Bengtsson\", role = \"ctb\"), person(\"Jim\", \"Hester\", role = \"ctb\"), person(\"Yixuan\", \"Qiu\", role = \"ctb\"), person(\"Kohske\", \"Takahashi\", role = \"ctb\"), person(\"Adam\", \"November\", role = \"ctb\"), person(\"Nacho\", \"Caballero\", role = \"ctb\"), person(\"Jeroen\", \"Ooms\", role = \"ctb\"), person(\"Thomas\", \"Leeper\", role = \"ctb\"), person(\"Joe\", \"Cheng\", role = \"ctb\"), person(\"Andrzej\", \"Oles\", role = \"ctb\"), person(given = \"Posit Software, PBC\", role = c(\"cph\", \"fnd\")) )",
-      "Description": "Render Markdown to full and lightweight HTML/LaTeX documents with the 'commonmark' package. This package has been superseded by 'litedown'.",
-      "Depends": [
-        "R (>= 2.11.1)"
-      ],
-      "Imports": [
-        "utils",
-        "xfun",
-        "litedown (>= 0.6)"
-      ],
-      "Suggests": [
-        "knitr",
-        "rmarkdown (>= 2.18)",
-        "yaml",
-        "RCurl"
-      ],
-      "License": "MIT + file LICENSE",
-      "URL": "https://github.com/rstudio/markdown",
-      "BugReports": "https://github.com/rstudio/markdown/issues",
-      "RoxygenNote": "7.3.2",
-      "Encoding": "UTF-8",
-      "NeedsCompilation": "no",
-      "Author": "Yihui Xie [aut, cre] (<https://orcid.org/0000-0003-0645-5666>), JJ Allaire [aut], Jeffrey Horner [aut], Henrik Bengtsson [ctb], Jim Hester [ctb], Yixuan Qiu [ctb], Kohske Takahashi [ctb], Adam November [ctb], Nacho Caballero [ctb], Jeroen Ooms [ctb], Thomas Leeper [ctb], Joe Cheng [ctb], Andrzej Oles [ctb], Posit Software, PBC [cph, fnd]",
-      "Maintainer": "Yihui Xie <xie@yihui.name>",
-      "Repository": "RSPM"
     },
     "memoise": {
       "Package": "memoise",
@@ -2417,7 +2296,8 @@
       "License": "GPL-3",
       "Copyright": "inst/COPYRIGHTS",
       "NeedsCompilation": "yes",
-      "Repository": "CRAN"
+      "Repository": "CRAN",
+      "Encoding": "UTF-8"
     },
     "nlme": {
       "Package": "nlme",
@@ -2492,15 +2372,14 @@
       "VignetteBuilder": "knitr",
       "Encoding": "UTF-8",
       "Roxygen": "list(markdown = TRUE)",
+      "Author": "Evan Odell [aut, cre] (ORCID: <https://orcid.org/0000-0003-1845-808X>), Paul Egeler [rev, ctb], Christophe Dervieux [rev] (ORCID: <https://orcid.org/0000-0003-4474-2498>), Nina Robery [ctb] (Work and Health Indicators with nomisr vignette)",
+      "Maintainer": "Evan Odell <evanodell91@gmail.com>",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "nomisr",
       "RemoteUsername": "ropensci",
       "RemoteRef": "HEAD",
-      "RemoteSha": "e4e8b66e8e09fab840e8d1d5c9e9a5e999210810",
-      "NeedsCompilation": "no",
-      "Author": "Evan Odell [aut, cre] (ORCID: <https://orcid.org/0000-0003-1845-808X>), Paul Egeler [rev, ctb], Christophe Dervieux [rev] (ORCID: <https://orcid.org/0000-0003-4474-2498>), Nina Robery [ctb] (Work and Health Indicators with nomisr vignette)",
-      "Maintainer": "Evan Odell <evanodell91@gmail.com>"
+      "RemoteSha": "e4e8b66e8e09fab840e8d1d5c9e9a5e999210810"
     },
     "openssl": {
       "Package": "openssl",
@@ -2856,7 +2735,8 @@
       "NeedsCompilation": "yes",
       "Author": "David Meyer [aut, cre], Christian Buchta [aut]",
       "Maintainer": "David Meyer <David.Meyer@R-project.org>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "purrr": {
       "Package": "purrr",
@@ -4377,7 +4257,8 @@
       "URL": "https://github.com/vubiostat/r-yaml/",
       "BugReports": "https://github.com/vubiostat/r-yaml/issues",
       "NeedsCompilation": "yes",
-      "Repository": "CRAN"
+      "Repository": "CRAN",
+      "Encoding": "UTF-8"
     },
     "yulab.utils": {
       "Package": "yulab.utils",
@@ -4413,6 +4294,48 @@
       "Author": "Guangchuang Yu [aut, cre] (<https://orcid.org/0000-0002-6485-8781>)",
       "Maintainer": "Guangchuang Yu <guangchuangyu@gmail.com>",
       "Repository": "CRAN"
+    },
+    "zoo": {
+      "Package": "zoo",
+      "Version": "1.8-14",
+      "Source": "Repository",
+      "Date": "2025-04-09",
+      "Title": "S3 Infrastructure for Regular and Irregular Time Series (Z's Ordered Observations)",
+      "Authors@R": "c(person(given = \"Achim\", family = \"Zeileis\", role = c(\"aut\", \"cre\"), email = \"Achim.Zeileis@R-project.org\", comment = c(ORCID = \"0000-0003-0918-3766\")), person(given = \"Gabor\", family = \"Grothendieck\", role = \"aut\", email = \"ggrothendieck@gmail.com\"), person(given = c(\"Jeffrey\", \"A.\"), family = \"Ryan\", role = \"aut\", email = \"jeff.a.ryan@gmail.com\"), person(given = c(\"Joshua\", \"M.\"), family = \"Ulrich\", role = \"ctb\", email = \"josh.m.ulrich@gmail.com\"), person(given = \"Felix\", family = \"Andrews\", role = \"ctb\", email = \"felix@nfrac.org\"))",
+      "Description": "An S3 class with methods for totally ordered indexed observations. It is particularly aimed at irregular time series of numeric vectors/matrices and factors. zoo's key design goals are independence of a particular index/date/time class and consistency with ts and base R by providing methods to extend standard generics.",
+      "Depends": [
+        "R (>= 3.1.0)",
+        "stats"
+      ],
+      "Suggests": [
+        "AER",
+        "coda",
+        "chron",
+        "ggplot2 (>= 3.5.0)",
+        "mondate",
+        "scales",
+        "stinepack",
+        "strucchange",
+        "timeDate",
+        "timeSeries",
+        "tinyplot",
+        "tis",
+        "tseries",
+        "xts"
+      ],
+      "Imports": [
+        "utils",
+        "graphics",
+        "grDevices",
+        "lattice (>= 0.20-27)"
+      ],
+      "License": "GPL-2 | GPL-3",
+      "URL": "https://zoo.R-Forge.R-project.org/",
+      "NeedsCompilation": "yes",
+      "Author": "Achim Zeileis [aut, cre] (<https://orcid.org/0000-0003-0918-3766>), Gabor Grothendieck [aut], Jeffrey A. Ryan [aut], Joshua M. Ulrich [ctb], Felix Andrews [ctb]",
+      "Maintainer": "Achim Zeileis <Achim.Zeileis@R-project.org>",
+      "Repository": "CRAN",
+      "Encoding": "UTF-8"
     }
   }
 }
