@@ -65,8 +65,8 @@ From the age-specific fertility rates, we calculate total fertility rates:
 
 ```{r, echo=FALSE, message=FALSE, results="asis", warning=FALSE}
 
-top_row <- total_fertility_rates %>% filter(gss_code == "E09000028" & year %in% c(1993, 1994, 1995, 1996) & source != "raw")
-bottom_row <- total_fertility_rates %>% filter(gss_code == "E09000028" & year %in% c(2022, 2023) & source == "raw")
+top_row <- total_fertility_rates %>% filter(gss_code == "E09000028" & year %in% c(1993, 1994, 1995, 1996))
+bottom_row <- total_fertility_rates %>% filter(gss_code == "E09000028" & year %in% c(2022, 2023))
 top_row[] <- lapply(top_row, as.character)
 bottom_row[] <- lapply(bottom_row, as.character)
 
