@@ -3,6 +3,7 @@ library(readr)
 
 source("R/functions/estimate_fertility_rates_sya.R")
 source("R/functions/smooth_fertility_curve.R")
+source("R/functions/reprofile_combined_rates.R")
 
 
 ###### Step 1: Create global variables ######
@@ -27,7 +28,9 @@ saveRDS(raw_fertility_rates, file_path$asfr_raw)
 
 ###### Step 3: Create and save smooth age-specific fertility rates ######
 
-raw_list <- split(raw_fertility_rates, ~ gss_code + year)
+reprofiled_fertility_rates <- reprofile_combined_rates(raw_fertility_rates)
+
+raw_list <- split(reprofiled_fertility_rates, ~ gss_code + year)
 smooth_list <- sapply(names(raw_list), function(x) NULL)
 
 message("Smoothing fertility curves...")
@@ -45,18 +48,9 @@ smooth_fertility_rates <- smooth_list %>%
 saveRDS(smooth_fertility_rates, file_path$asfr_smooth)
 
 # Create total fertility rates
-total_fertility_rates <- bind_rows(
-
-  asfr_lad_smooth %>%
+total_fertility_rates <- smooth_fertility_rates %>%
     group_by(gss_code, gss_name, year, geography) %>%
-    summarise(tfr = sum(fertility_rate), .groups = "drop") %>%
-    mutate(source = "smoothed"),
-
-  asfr_lad_raw %>%
-    group_by(gss_code, gss_name, year, geography) %>%
-    summarise(tfr = sum(fertility_rate), .groups = "drop") %>%
-    mutate(source = "raw")
-)
+    summarise(tfr = sum(fertility_rate), .groups = "drop")
 
 saveRDS(total_fertility_rates, file_path$tfr)
 

@@ -25,13 +25,34 @@ total_fertility_rates <- readRDS("data/processed/tfr_lad_agg_cy.rds")
 
 ### Introduction to fertility estimates \
 
-Fertility refers to the number of live births within an individual or group, influenced by a combination of biological, social, cultural, and economic factors. At the GLA, we produce age-specific and total fertility rate estimates for each local authority and higher level geography in England and Wales. These estimates are a key input into our annual population estimates. \
+Fertility refers to the number of live births within an individual or group, influenced by a combination of biological, social, cultural, and economic factors. 
 
-More information on how age-specific and total fertility rates are calculate and project methodology can be found in our technical notes below.
+There are several ways to describe fertility rates, but two of the most commonly used are Age-Specific Fertility Rates (ASFR) and Total Fertility Rates (TFR).  
 
-The codebase for this project is [available on GitHub](https://github.com/Greater-London-Authority/fertility_rate_estimation/tree/main). All the requirements and information necessary to run the analysis can be found in the README file.
+**Age-specific fertility rates** measure the number of births per woman within specific age groups. For example, in England, the peak childbearing age is currently 32, with an ASFR of 0.107, meaning 107 babies were born for each 1,000 women aged 32.  
 
-### The data \
+**Total fertility rates** provide a measure of overall fertility calculated as the sum of age-specific fertility rates across all reproductive age groups. It represents the average number of children that a woman would have if she were to experience current age-specific fertility rates over the course of her life. For 2023, we estimate the TFR in Inner London to have been 1.16 compared to 1.54 in Outer London, and 1.41 for England as whole.
+
+### About these estimates \
+
+The estimates published here were produced by the GLA for use in analysis and as inputs to [population projections](https://data.london.gov.uk/dataset/trend-based-population-projections-vqzo7). These data include annual estimates for all local authority districts and regions in England and Wales from 1993 onward of:
+
+* Total Fertility Rates
+* Age-Specific Fertility Rates by single year of age (15 to 49)
+
+The GLA is making these estimates and the code used to create them as a resource for analysts and researchers working to understand local birth trends. We welcome feedback and suggestions from the community for how these data could be improved or made more useful. 
+
+The code used to produce these estimates is [available on GitHub](https://github.com/Greater-London-Authority/fertility_rate_estimation/tree/main). All the requirements and information necessary to recreate the estimates can be found in the README file. This repository also includes some examples of code for plotting age-specific and total fertility rates across local authorities and periods of interest.\
+
+The Office for National Statistics also publishes fertility rates for local authority districts and higher geographies. Age-specific fertility rates are published by five-year age groups for 2013 onward. These data are available to download from [Nomis](https://www.nomisweb.co.uk/datasets/lebirthrates).
+
+**Note:** there are differences between rates published here and those available from ONS. These differences arise because the GLA: 
+
+- creates modelled rates for individual ages 15 to 19 and 40 to 49 from aggregate data
+- applies smoothing to age specific rates
+- uses [population denominators](https://data.london.gov.uk/dataset/modelled-population-backseries-ex9jd) for 2002 to 2020 that differ from the official mid-year estimates used by ONS.  
+
+### Data and methods
 
 The data used to calculate fertility rate estimates are:
 
@@ -39,9 +60,12 @@ The data used to calculate fertility rate estimates are:
 - ONS mid-year population estimates from 1991 - 2000
 - GLA estimates components of change modelled backseries from 2000
 
-After processing the data, we calculate age-specific fertility rates for each local authority and higher level geographies in England and Wales. Finally, we apply a smoothing function to the fertility rates to reduce noise.
+Raw age-specific fertility rates are calculated by dividing the number of births in a calendar year by the population of women the same age at the mid-point of that year. 
 
-Age-specific fertility rates are then added to obtain total fertility rates. \
+Smoothed rates, covering individual ages from 15 to 49 are produced by fitting a series of parametric curves to the raw fertility rates.
+
+Age-specific fertility rates are summed across all ages to create total fertility rates. \
+
 
 The snapshot below is extracted from the age-specific fertility rates output:
 
@@ -61,12 +85,12 @@ table %>% kableExtra::kable(caption = "smooth_asfr_lad_agg_cy.rds") %>%
 
 ```
 
-From the age-specific fertility rates, we calculate total fertility rates:
+Total fertility rates output:
 
 ```{r, echo=FALSE, message=FALSE, results="asis", warning=FALSE}
 
-top_row <- total_fertility_rates %>% filter(gss_code == "E09000028" & year %in% c(1993, 1994, 1995, 1996) & source != "raw")
-bottom_row <- total_fertility_rates %>% filter(gss_code == "E09000028" & year %in% c(2022, 2023) & source == "raw")
+top_row <- total_fertility_rates %>% filter(gss_code == "E09000028" & year %in% c(1993, 1994, 1995, 1996))
+bottom_row <- total_fertility_rates %>% filter(gss_code == "E09000028" & year %in% c(2022, 2023))
 top_row[] <- lapply(top_row, as.character)
 bottom_row[] <- lapply(bottom_row, as.character)
 
@@ -80,9 +104,6 @@ table %>% kableExtra::kable(caption = "tfr_lad_agg_cy.csv") %>%
 
 ```
 
-### Analysis \
-
-The output can then be plotted in various ways. If users are familiar with R, our [GitHub repository]((https://github.com/Greater-London-Authority/fertility_rate_estimation/tree/main)) has all the functionality necessary for users to plot age-specific and total fertility rates across local authorities and periods of interest.
 
 
 ```{r dpi=300}
