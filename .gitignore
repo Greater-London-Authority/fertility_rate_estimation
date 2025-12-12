@@ -51,7 +51,4 @@ data/*
 outputs/*
 *.html
 images/*
-
-# Renv files & directories
-renv/library/*
-renv/staging/*
+*.lock

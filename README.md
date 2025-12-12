@@ -10,7 +10,7 @@ Age-specific fertility estimates are used to project future fertility rates and 
 
 To avoid path issues, open the R project `fertility_rate_estimation.Rproj`.
 
-Packages and dependencies are managed via `renv`. The `R/run_all` script begins with `renv::restore()`, to ensure that all the necessary packages are installed.
+Packages and dependencies are managed via `pak` ([see package documentation](https://pak.r-lib.org/index.html)). The `R/run_all` script begins with commmand to create a lockfile and install required packages.
 
 Inside the same file, run `get_fertility_rate_estimates_data()` to download and process all required data, and calculate fertility estimates. All the ouputs will be saved in the `data` directory, which is then further divided into `raw`, `intermediate` and `processed`. The final outputs containing the raw and smooth fertility rate estimates will be saved under the `processed` directory.
 
