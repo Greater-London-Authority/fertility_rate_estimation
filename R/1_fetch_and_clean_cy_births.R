@@ -48,6 +48,7 @@ births_lad_cy1993_2021 <- read_and_clean_ms_births_lad(
 ) %>%
   select(-gss_name)
 
+# 2021 boundaries, even though the notes in the raw data say 2023
 births_lad_cy1993_2021 <- recode_gss(
   df_in = births_lad_cy1993_2021,
   recode_from_year = 2021,
@@ -59,6 +60,7 @@ births_lad_cy1993_2021 <- recode_gss(
 ###### Step 4: Read, clean and split combined areas per LAD (from 2022) ######
 # In this case we are splitting City of London & Isles of Scilly
 
+# 2024 boundaries, identical to 2023
 births_lad_cy2022_2023 <- read_and_clean_ss_births_lad(
   file_path = file_path$raw_births_lad_cy2022_2023
 )
