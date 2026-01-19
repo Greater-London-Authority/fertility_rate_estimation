@@ -31,13 +31,13 @@ for (yr in names(asfr_by_year)) {
 
     t_minus <- asfr_by_year[[previous_yr]] |>
       filter(gss_code == la) |>
-      mutate(mac = sum(age * fertility_rate) / sum(fertility_rate)) |>
+      mutate(mac = sum(age * fertility_rate) / sum(fertility_rate) + 0.5) |>
       select(mac) |>
       slice(1)
 
     t_plus <- asfr_by_year[[next_yr]] |>
       filter(gss_code == la) |>
-      mutate(mac = sum(age * fertility_rate) / sum(fertility_rate)) |>
+      mutate(mac = sum(age * fertility_rate) / sum(fertility_rate) + 0.5) |>
       select(mac) |>
       slice(1)
 
@@ -46,7 +46,7 @@ for (yr in names(asfr_by_year)) {
     nominator <- asfr_by_year[[as.character(current_yr)]] |>
       filter(year == yr & gss_code == la) |>
       mutate(tfr = sum(fertility_rate)) |>
-      mutate(mac = sum(age * fertility_rate) / tfr) |>
+      mutate(mac = sum(age * fertility_rate) / tfr + 0.5) |>
       select(tfr, gss_name, mac) |>
       slice(1)
 
@@ -72,7 +72,7 @@ years <- c(start_year:end_year)
 
 plot_tfr_selected_areas(adjusted_tfr, lad_codes, c(start_year:end_year))
 
-la <- "Kensington and Chelsea"
+la <- "London"
 adjusted_tfr |>
   filter(gss_name %in% la) |>
   ggplot(aes(x = year)) +
