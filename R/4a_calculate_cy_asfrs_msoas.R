@@ -1,6 +1,7 @@
 library(dplyr)
 library(readr)
 library(tidyr)
+library(stringr)
 
 source("R/functions/estimate_fertility_rates_sya.R")
 source("R/functions/smooth_fertility_curve.R")
@@ -27,21 +28,16 @@ for (i in 1:length(raw_list)) {
   if (i %% 100 == 0) message(paste0("Running ", i, " of ", length(raw_list)))
 }
 
-smooth_fertility_rates <- smooth_list |>
+smooth_asfr_msoa_my <- smooth_list |>
   bind_rows()
 
-unique(smooth_fertility_rates$fitting_status)x
-# saveRDS(smooth_fertility_rates, "data/processed/first_asfr_msoa_my.rds")
+saveRDS(smooth_asfr_msoa_my, "data/processed/first_asfr_msoa_my.rds")
 
-barplot(prop.table(table(smooth_fertility_rates$fitting_status)),
+unique(smooth_asfr_msoa_my$fitting_status)
+
+barplot(prop.table(table(smooth_asfr_msoa_my$fitting_status)),
         ylab = "Proportion",
         xlab = "Fitting status")
-
-debug(smooth_fertility_curve)
-smooth_fertility_curve(raw_list[[130]], c(19:45))
-
-smooth_fertility_curve(raw_list$`E02000003.2011-2012`, c(19:45))
-
 
 msoa <- "E02000099"
 y <- "2011-2012"
@@ -64,5 +60,7 @@ smooth_fertility_rates |>
     )
   ) +
   labs(x = "age", y = "fertility rate")
+
+### Look into this MSOAS, no smooth output E02000133 E02006782
 
 
