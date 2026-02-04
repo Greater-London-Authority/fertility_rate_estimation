@@ -5,24 +5,10 @@ library(dplyr)
 library(tidyr)
 library(stringr)
 
-
-raw_asfr_msoa_my <- read.csv(
-  "~/projects/small-area-births/data/processed/asfr_msoa_from_2011_to_2021.csv"
-)
-
-raw_asfr_msoa_my <- raw_asfr_msoa_my |>
-  pivot_longer(
-    cols = starts_with("age"),
-    names_to = "age",
-    values_to = "fertility_rate"
-  ) |>
-  mutate(age = as.numeric(unlist(str_extract_all(age, "\\d{2}"))))
-
-smooth_asfr_msoa_my <- readRDS("data/processed/first_asfr_msoa_my.rds")
-
+### Run 4a_calculate_cy_asfr_msoas.R
 
 ui <- page_sidebar(
-  title = "Raw fertility rates by MSOA",
+  title = "Fertility rates by MSOA",
   sidebar = sidebar(
     selectInput(
       inputId = "year",
@@ -32,10 +18,10 @@ ui <- page_sidebar(
     ),
 
     selectInput(
-      inputId = "local_authority_name",
+      inputId = "gss_name",
       label = "Select Local Authority:",
-      choices = unique(smooth_asfr_msoa_my$local_authority_name),
-      selected = sort(unique(smooth_asfr_msoa_my$local_authority_name))[1]
+      choices = unique(smooth_asfr_msoa_my$gss_name),
+      selected = sort(unique(smooth_asfr_msoa_my$gss_name))[1]
     ),
 
     selectInput(
@@ -51,9 +37,9 @@ ui <- page_sidebar(
 
 server <- function(input, output, session) {
   # Update MSOA dropdown when Local Authority changes
-  observeEvent(input$local_authority_name, {
+  observeEvent(input$gss_name, {
     msoas_dropdown <- smooth_asfr_msoa_my |>
-      filter(local_authority_name %in% input$local_authority_name) |>
+      filter(gss_name %in% input$gss_name) |>
       pull(msoas) |>
       unique() |>
       sort()
@@ -67,33 +53,63 @@ server <- function(input, output, session) {
   })
 
   output$distPlot <- renderPlot({
-    smooth_rates <- smooth_asfr_msoa_my |>
+    raw_sy_rates <- asfr_msoa_my |>
       filter(
         msoas %in% input$msoas,
         year == input$year
       )
 
-    raw_rates <- raw_asfr_msoa_my |>
+    smooth_sy_rates <- smooth_asfr_msoa_my |>
       filter(
         msoas %in% input$msoas,
         year == input$year
       )
 
-    ggplot(smooth_rates, aes(x = age, y = fertility_rate)) +
-      geom_line(aes(colour = "smoothed"), linewidth = 1) +
+    smooth_3y_rates <- smooth_asfr_3y_msoa_my |>
+      filter(
+        msoas %in% input$msoas,
+        year == input$year
+      )
+
+    raw_3y_rates <- asfr_3y_msoa_my |>
+      filter(
+        msoas %in% input$msoas,
+        year == input$year
+      )
+
+    ggplot(smooth_sy_rates,
+      aes(x = age, y = fertility_rate)
+    ) +
+      geom_line(aes(colour = "smooth sy"), linewidth = 1) +
       geom_line(
-        data = raw_rates,
-        aes(colour = "raw"),
+        data = raw_sy_rates,
+        aes(colour = "raw sy"),
+        linewidth = 1
+      ) +
+      geom_line(
+        data = raw_3y_rates,
+        aes(colour = "raw 3y"),
+        linewidth = 1
+      ) +
+      geom_line(
+        data = smooth_3y_rates,
+        aes(colour = "smooth 3y"),
         linewidth = 1
       ) +
       scale_colour_manual(
         name = "type",
+        limits = c("smooth sy", "raw sy", "smooth 3y", "raw 3y"),
         values = c(
-          "smoothed" = "red",
-          "raw" = "black"
+          "raw sy" = "black",
+          "raw 3y" = "blue",
+          "smooth sy" = "red",
+          "smooth 3y" = "orange"
         )
       ) +
-      labs(x = "age", y = "fertility rate")
+      labs(x = "age", y = "fertility rate") +
+      theme(legend.key.size = unit(1, 'cm'),
+            legend.text = element_text(size=14),
+            legend.title = element_text(size=16))
   })
 }
 
