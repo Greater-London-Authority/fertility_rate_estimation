@@ -1,0 +1,137 @@
+---
+title: "Tempo Adjusted Fertility Rate Estimates"
+author: "Demography - Greater London Authority"
+date: "`r format(Sys.time(), '%d/%m/%Y')`"
+output: html_document
+bibliography: references.bib
+link-citations: true
+---
+
+### Introduction to tempo adjusted fertility estimates \
+
+The calculation of Total Fertility Rates (TFR) reflects the interaction of 
+two key components: **tempo** (the timing of childbearing) and **quantum** 
+(the overall level of childbearing). 
+
+When the mean age at childbearing shifts, standards measure of fertility can
+misrepresent the underlying fertility behaviour. For example, if a
+cohort of women postpones childbearing, the completed number of children 
+they eventually have may remain unchanged. However, this delay in timing 
+(a tempo effect) can temporarily depress the observed TFR, creating the 
+impression of a decline in fertility levels (a quantum effect). In this way,
+changes in timing may be misinterpreted as changes in fertility levels.
+
+In England, the age at which women have children has increased steadily since 
+the early 1990s - a common trend across may developed countries. This pattern 
+is also evident at the Local Authority level, as illustrated the graph below:
+
+```{r results='hide'}
+knitr::opts_chunk$set(echo = FALSE)
+
+source("R/functions/tempo_adjusted_fertility_rates.R")
+source("R/functions/plots.R")
+
+file_path <- "data/processed/adjusted_tfr_my.rds"
+asfr_lad_smooth <- readRDS("data/processed/smooth_asfr_lad_agg_cy.rds")
+
+if (!file.exists(file_path)) {
+  adjusted_tfr <- calculate_tempo_adj_tfr(
+  "data/processed/smooth_asfr_lad_agg_cy.rds")
+  saveRDS(adjusted_tfr, file_path)
+} else {
+  adjusted_tfr <- readRDS(file_path)
+}
+```
+
+
+
+```{r results='hide'}
+lad_codes <- c("E09000007", "E09000020", "E09000026", "E12000007", "E92000001")
+
+adjusted_tfr |>
+  filter(gss_code %in% lad_codes) |>
+  ggplot(aes(x = year, y = mac, colour = gss_name)) +
+  theme_gla(base_size = 10) +
+  geom_line(linewidth = 1, alpha = 0.7) +
+  scale_x_continuous(breaks = years, guide = guide_axis(angle = 60)) +
+  scale_y_continuous(limits = c(25, NA)) +
+  labs(
+    title = "Mean childbearing age",
+    subtitle = "",
+    caption = "Source: GLA modelled rates based on ONS births by age of mother"
+  )
+
+```
+
+### How tempo-adjusted fertility rates are calculated \
+
+The first tempo adjustment was proposed by Bongaarts and Feeney (1998):
+
+$$\text{adjTFR}(t)_{i} = \frac {TFR_{i}(t)}{1-r_{i}(t)}$$
+Where: \
+$r_{i}$ the change in the mean age at childbearing (MAC) of birth order {i} \
+
+Because data on birth order by Local Authority in England and Wales is not 
+currently available, we calculate the adjusted rates by using the TFR and mean
+age at childbearing for each Local Authority and year.
+
+Calculating tempo-adjusted TFR without parity-specific data relies on the
+assumption that fertility is below replacement level, that changes in the mean 
+age at childbearing occur uniformly across birth orders, and that the annual 
+shift in mean age does not exceed about 0.2 years. However, without birth-order 
+data, it is impossible to verify whether these assumptions hold in practice. 
+
+As a result, the adjusted TFR may be biased if different parities experience 
+different timing shifts or if structural changes in fertility are occurring 
+simultaneously.
+
+This is particularly relevant in London, where high levels of migration can 
+alter the parity composition, age structure, and fertility behaviour of 
+the population, making it unlikely that the uniform timing-shift assumption 
+holds.
+
+
+
+```{r}
+
+plot_asfr_multiple_areas_and_years(asfr_data = asfr_lad_smooth, 
+                                   lad_codes = c(
+                                     "E09000018", "E09000005", "E09000025", "E09000012"),
+                                   years = c(2001, 2002, 2003), 
+                                   ncols = 6, 
+                                   label_group = "year")
+
+
+```
+
+
+
+
+```{r results='hide'}
+
+adjusted_tfr |>
+  filter(gss_name == "England") |>
+  ggplot(aes(x = year)) +
+  theme_gla(base_size = 10) +
+  geom_line(aes(y = tfr, linetype = "tfr"), linewidth = 1, alpha = 0.7) +
+  geom_line(
+    aes(y = adj_tfr, linetype = "adj_tfr"),
+    linewidth = 1,
+    alpha = 0.7
+  ) +
+  scale_x_continuous(breaks = years, guide = guide_axis(angle = 60)) +
+  scale_y_continuous(limits = c(0, NA)) +
+  scale_linetype_manual(
+    values = c("tfr" = "solid", "adj_tfr" = "dotted"),
+    labels = c("tfr" = "Observed TFR", "adj_tfr" = "Adjusted TFR"),
+    name = NULL
+  ) +
+  labs(
+    title = "Adjusted TFR",
+    subtitle = location,
+    caption = "Source: GLA modelled rates based on ONS births by age of mother"
+  )
+
+```
+
+
