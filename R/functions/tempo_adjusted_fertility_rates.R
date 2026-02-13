@@ -50,7 +50,9 @@ calculate_tempo_adj_tfr <- function(asfr_smooth_file_path) {
         dplyr::select(mac) |>
         dplyr::slice(1)
 
-      denominator <- (1 - ((t_plus$mac - t_minus$mac) / 2))
+      delta_mac <- t_plus$mac - t_minus$mac
+
+      denominator <- (1 - ((delta_mac) / 2))
 
       nominator <- asfr_by_year[[as.character(current_yr)]] |>
         dplyr::filter(year == yr & gss_code == la) |>
@@ -67,7 +69,8 @@ calculate_tempo_adj_tfr <- function(asfr_smooth_file_path) {
         gss_name = nominator[["gss_name"]],
         tfr = nominator[["tfr"]],
         adj_tfr = adj_tfr,
-        mac = nominator[["mac"]]
+        mac = nominator[["mac"]],
+        delta_mac = delta_mac
       )
 
       adjusted_tfr <- rbind(adjusted_tfr, current_list)
