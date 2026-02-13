@@ -59,7 +59,7 @@ calculate_tempo_adj_tfr <- function(asfr_smooth_file_path) {
         dplyr::select(tfr, gss_name, mac) |>
         dplyr::slice(1)
 
-      adj_tfr = nominator[["tfr"]] / denominator
+      adj_tfr <- nominator[["tfr"]] / denominator
 
       current_list <- data.frame(
         year = as.numeric(yr),
