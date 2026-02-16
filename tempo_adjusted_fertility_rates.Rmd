@@ -3,7 +3,7 @@ title: "Tempo Adjusted Fertility Rate Estimates"
 author: "Demography - Greater London Authority"
 date: "`r format(Sys.time(), '%d/%m/%Y')`"
 output: html_document
-bibliography: references.bib
+bibliography: adjusted_tfr.bib
 link-citations: true
 ---
 
@@ -72,21 +72,21 @@ adjusted_tfr |>
 
 ### How tempo-adjusted fertility rates are calculated \
 
-The first tempo adjustment was proposed by Bongaarts and Feeney (1998):
+The first tempo adjustment was proposed by Bongaarts and Feeney [@bongaarts_quantum_1998]:
 
 $$\text{adjTFR}(t)_{i} = \frac {TFR_{i}(t)}{1-r_{i}(t)}$$
 Where: \
-$r_{i}$ the change in the mean age at childbearing (MAC) of birth order {i} \
+$r_{i}$ the change in the mean age at childbearing (MAC) of birth order ${i}$ \
 
 Because data on birth order by Local Authority in England and Wales is not 
 currently available, we calculate the adjusted rates by using the TFR and mean
 age at childbearing for each Local Authority at a given year.
 
-According to the documentation accompanied by the European Demographic Dataset,
-calculating tempo-adjusted TFR without parity-specific data relies on the
-assumption three assumptions: 1) fertility is below replacement level 2) changes 
-in the mean age at childbearing occur uniformly across birth orders, and 3) the 
-annual shift in mean age does not exceed about 0.2 years. 
+According to Vienne Institute of Demography [@potancokova_estimating_2008], 
+calculating tempo-adjusted TFR without  parity-specific data relies on three 
+assumptions: 1) fertility is below replacement level 2) changes in the mean age 
+at childbearing occur uniformly across birth orders, 
+and 3) the annual shift in mean age does not exceed about 0.2 years. 
 
 As a result, the adjusted TFR may be biased if different parities experience 
 different timing shifts or if structural changes in fertility are occurring 
@@ -186,17 +186,17 @@ ggplot(data = adjusted_tfr |>
   
 ```
 
-When MAC increases rapidly the adjusted fertility rates become inflated. 
-For example, MAC rose substantially from 2005,falling in 2008, before rising 
+Both graphs shows how MAC and adjusted TFR follow a similar pattern. \
+
+When MAC increases rapidly the adjusted fertility rates becomes inflated. 
+For example, MAC rose substantially from 2005, falling in 2008, before rising 
 sharply again in 2009/10. Adjusted TFR peaks in London in 2012, when we observe 
 the largest increase in MAC - 0.50, double of the average change for the 
 period (0.24). \ 
 
-This is particularly problematic for the Local Authority level, where $\Delta{MAC}$
-is highly volatile. In Camden for example, in some years MAC increases by 0.97
-and in others decrease by 0.28. \
-
-Both graphs shows how MAC and adjusted TFR follow a similar pattern. \
+This is particularly problematic at the Local Authority level, where $\Delta{MAC}$
+is highly volatile. In Camden for example, from 1994 to 2022 the YoY change in 
+MAC varied from a high of 0.97 and a low of -0.28. \
 
 ```{r}
 
@@ -233,12 +233,13 @@ births are more/less common in some boroughs.
 
 **3. Hard to separate tempo from reduction in family size** \
 Changes in fertility rates are assumed to be solely tempo changes. We cannot
-be sure that some changes can be attributed to reduction in family size. 
+be sure that all changes can be attributed to tempo dynamics, it is plausible
+that postponment is accompanied by a reduction in family size. 
 
-Data from the Netherlands 1950-97, Imhoff et al. 2000 shows how the assumption
-that women of all ages bearing children defer or advance their births in the 
-same manner does is not supported by evidence. Similarly, this assumption is
-also violated at small areas.
+Data from the Netherlands 1950-97 shows how the assumption that women of all ages 
+bearing children defer or advance their births in the same manner does is not 
+supported by evidence [@van_imhoff_quantum_2000]. Period tempo changes depend
+on cohort. Similarly, this assumption is also violated at small areas.
 
 
 ```{r}
@@ -256,6 +257,4 @@ plot_asfr_multiple_areas_and_years(asfr_data = asfr_lad_smooth,
 
 ### Final remarks \
 
-
-
-
+### Bibliography \
