@@ -44,9 +44,9 @@ if (!file.exists(file_path)) {
 ```
 
 
-
 ```{r results='hide'}
 lad_codes <- c("E09000007", "E09000020", "E09000026", "E12000007", "E92000001")
+years <- c(min(adjusted_tfr$year):max(adjusted_tfr$year))
 
 adjusted_tfr |>
   filter(gss_code %in% lad_codes) |>
@@ -73,23 +73,165 @@ $r_{i}$ the change in the mean age at childbearing (MAC) of birth order {i} \
 
 Because data on birth order by Local Authority in England and Wales is not 
 currently available, we calculate the adjusted rates by using the TFR and mean
-age at childbearing for each Local Authority and year.
+age at childbearing for each Local Authority at a given year.
 
-Calculating tempo-adjusted TFR without parity-specific data relies on the
-assumption that fertility is below replacement level, that changes in the mean 
-age at childbearing occur uniformly across birth orders, and that the annual 
-shift in mean age does not exceed about 0.2 years. However, without birth-order 
-data, it is impossible to verify whether these assumptions hold in practice. 
+According to the documentation accompanied by the European Demographic Dataset,
+calculating tempo-adjusted TFR without parity-specific data relies on the
+assumption three assumptions: 1) fertility is below replacement level 2) changes 
+in the mean age at childbearing occur uniformly across birth orders, and 3) the 
+annual shift in mean age does not exceed about 0.2 years. 
 
 As a result, the adjusted TFR may be biased if different parities experience 
 different timing shifts or if structural changes in fertility are occurring 
-simultaneously.
+simultaneously. 
 
 This is particularly relevant in London, where high levels of migration can 
 alter the parity composition, age structure, and fertility behaviour of 
-the population, making it unlikely that the uniform timing-shift assumption 
-holds.
+the population, making it unlikely that the assumptions two and three hold.
 
+### Preliminary discussion
+
+The GLA Demography team calculated adjusted rates for all Local Authority 
+in England and Wales. The output is only preliminary research outputs, the
+team still trying to make sense of the results and how they can
+help us understand fertility rates in London. 
+
+Adjusted fertility rates aimed to remove the temporary tempo distortions 
+caused by an increase in the mean age at childbearning. As expected, the 
+adjusted TFR is above the standard TFR for England and London, 
+as demonstrated below:
+
+```{r results='hide'}
+
+location <- c("England", "London")
+
+adjusted_tfr |>
+  dplyr::filter(gss_name == "England") |>
+  ggplot(aes(x = year)) +
+  theme_gla(base_size = 10) +
+  geom_line(aes(y = tfr, linetype = "tfr"), linewidth = 1, alpha = 0.7) +
+  geom_line(
+    aes(y = adj_tfr, linetype = "adj_tfr"),
+    linewidth = 1,
+    alpha = 0.7
+  ) +
+  geom_line(
+    data = adjusted_tfr |>
+    dplyr::filter(gss_name == "London") |> 
+    dplyr::rename(adj_tfr_london = adj_tfr), mapping = aes(y = adj_tfr_london, linetype = "adj_tfr_london"),
+    linewidth = 1,
+    alpha = 0.7
+  ) +
+   geom_line(
+    data = adjusted_tfr |>
+    dplyr::filter(gss_name == "London") |> 
+    dplyr::rename(tfr_london = tfr), mapping = aes(y = tfr_london, linetype = "tfr_london"),
+    linewidth = 1,
+    alpha = 0.7
+  ) +
+  scale_x_continuous(breaks = years, guide = guide_axis(angle = 60)) +
+  scale_y_continuous(limits = c(0, NA)) +
+  scale_linetype_manual(
+    values = c("tfr" = "solid", "adj_tfr" = "dotted", "adj_tfr_london" = "dotdash", "tfr_london" = "longdash"),
+    labels = c("tfr" = "TFR England", "adj_tfr" = "Adjusted TFR England", "adj_tfr_london" = "Adjusted TFR London", "tfr_london" = "TFR London"),
+    name = NULL
+  ) +
+  labs(
+    title = "TFR and Adjusted TFR",
+    subtitle = "England and London",
+    caption = "Source: GLA modelled rates based on ONS births by age of mother"
+  )
+
+```
+
+Below, we've outlined the few points of consideration: \
+
+**1. Hypersensitive to changes in mean age at childbearing (MAC)** \
+Even though the MAC graph above shows that MAC has been increasing linearly, 
+the rate of change varies significantly as demonstrated in the graph below: \
+
+```{r}
+
+ggplot(data = adjusted_tfr |>
+           dplyr::filter(gss_name == "Camden"), 
+       mapping = aes(y=delta_mac, x= years, linetype = "delta_mac")) +
+    geom_line(linewidth = 1,
+    alpha = 0.7) +
+    geom_line(data = adjusted_tfr |>
+           dplyr::filter(gss_name == "London") |> 
+            dplyr::rename(delta_mac_london = delta_mac), 
+       mapping = aes(y=delta_mac_london, linetype = "delta_mac_london"), 
+        linewidth = 1,
+    alpha = 0.7) +
+    theme_gla(base_size = 10) +
+    scale_x_continuous(breaks = years, guide = guide_axis(angle = 60)) +
+  scale_y_continuous(limits = c(-0.7, 1.0)) +
+   scale_linetype_manual(
+    values = c("delta_mac_london" = "solid", "delta_mac" = "dotted"),
+    labels = c("delta_mac" = "\U0394MAC Camden", "delta_mac_london" = "\U0394MAC London"),
+    name = NULL
+  ) +
+  labs(
+    title = "Change in mean age at childbearing (MAC)",
+    subtitle = "Camden and London",
+    caption = "Source: GLA modelled rates based on ONS births by age of mother"
+  )
+  
+```
+
+When MAC increases rapidly the adjusted fertility rates become inflated. 
+For example, MAC rose substantially from 2005,falling in 2008, before rising 
+sharply again in 2009/10. Adjusted TFR peaks in London in 2012, when we observe 
+the largest increase in MAC - 0.50, double of the average change for the 
+period (0.24). \ 
+
+This is particularly problematic for the Local Authority level, where $\Delta{MAC}$
+is highly volatile. In Camden for example, in some years MAC increases by 0.97
+and in others decrease by 0.28. \
+
+Both graphs shows how MAC and adjusted TFR follow a similar pattern. \
+
+```{r}
+
+adjusted_tfr |>
+  dplyr::filter(gss_name == "Camden") |>
+  ggplot(aes(x = year)) +
+  theme_gla(base_size = 10) +
+  geom_line(aes(y = tfr, linetype = "tfr"), linewidth = 1, alpha = 0.7) +
+  geom_line(
+    aes(y = adj_tfr, linetype = "adj_tfr"),
+    linewidth = 1,
+    alpha = 0.7
+  ) +
+  scale_x_continuous(breaks = years, guide = guide_axis(angle = 60)) +
+  scale_y_continuous(limits = c(0, NA)) +
+  scale_linetype_manual(
+    values = c("tfr" = "solid", "adj_tfr" = "dotted"),
+    labels = c("tfr" = "TFR", "adj_tfr" = "Adjusted TFR"),
+    name = NULL
+  ) +
+  labs(
+    title = "Camden TFR and Adjusted TFR",
+    caption = "Source: GLA modelled rates based on ONS births by age of mother"
+  )
+```
+
+
+**2. Lack of birth data by parity at the Local Authority level** \
+The ONS does not publish birth data by parity at the Local Authority level, which
+limits our ability to validate assumptions and verify trends. For example, we
+could check whether MAC by birth order is less volatile and if higher-order 
+births are more/less common in some boroughs.
+
+
+**3. Hard to separate tempo from reduction in family size** \
+Changes in fertility rates are assumed to be solely tempo changes. We cannot
+be sure that some changes can be attributed to reduction in family size. 
+
+Data from the Netherlands 1950-97, Imhoff et al. 2000 shows how the assumption
+that women of all ages bearing children defer or advance their births in the 
+same manner does is not supported by evidence. Similarly, this assumption is
+also violated at small areas.
 
 
 ```{r}
@@ -105,33 +247,8 @@ plot_asfr_multiple_areas_and_years(asfr_data = asfr_lad_smooth,
 ```
 
 
+### Final remarks \
 
 
-```{r results='hide'}
-
-adjusted_tfr |>
-  filter(gss_name == "England") |>
-  ggplot(aes(x = year)) +
-  theme_gla(base_size = 10) +
-  geom_line(aes(y = tfr, linetype = "tfr"), linewidth = 1, alpha = 0.7) +
-  geom_line(
-    aes(y = adj_tfr, linetype = "adj_tfr"),
-    linewidth = 1,
-    alpha = 0.7
-  ) +
-  scale_x_continuous(breaks = years, guide = guide_axis(angle = 60)) +
-  scale_y_continuous(limits = c(0, NA)) +
-  scale_linetype_manual(
-    values = c("tfr" = "solid", "adj_tfr" = "dotted"),
-    labels = c("tfr" = "Observed TFR", "adj_tfr" = "Adjusted TFR"),
-    name = NULL
-  ) +
-  labs(
-    title = "Adjusted TFR",
-    subtitle = location,
-    caption = "Source: GLA modelled rates based on ONS births by age of mother"
-  )
-
-```
 
 
