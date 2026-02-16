@@ -7,26 +7,15 @@ bibliography: references.bib
 link-citations: true
 ---
 
-### Introduction to tempo adjusted fertility estimates \
-
-The calculation of Total Fertility Rates (TFR) reflects the interaction of 
-two key components: **tempo** (the timing of childbearing) and **quantum** 
-(the overall level of childbearing). 
-
-When the mean age at childbearing shifts, standards measure of fertility can
-misrepresent the underlying fertility behaviour. For example, if a
-cohort of women postpones childbearing, the completed number of children 
-they eventually have may remain unchanged. However, this delay in timing 
-(a tempo effect) can temporarily depress the observed TFR, creating the 
-impression of a decline in fertility levels (a quantum effect). In this way,
-changes in timing may be misinterpreted as changes in fertility levels.
-
-In England, the age at which women have children has increased steadily since 
-the early 1990s - a common trend across may developed countries. This pattern 
-is also evident at the Local Authority level, as illustrated the graph below:
+```{css, echo=FALSE}
+div {
+    text-align: justify;
+    margin-top: 10px;
+    width: 600px;
+}
+```
 
 ```{r results='hide'}
-knitr::opts_chunk$set(echo = FALSE)
 
 source("R/functions/tempo_adjusted_fertility_rates.R")
 source("R/functions/plots.R")
@@ -43,8 +32,26 @@ if (!file.exists(file_path)) {
 }
 ```
 
+### Introduction to tempo adjusted fertility estimates \
 
-```{r results='hide'}
+The calculation of Total Fertility Rates (TFR) reflects the interaction of 
+two key components: **tempo** (the timing of childbearing) and **quantum** 
+(the overall level of childbearing).
+
+When the mean age at childbearing shifts, standards measure of fertility can
+misrepresent the underlying fertility behaviour. For example, if a
+cohort of women postpones childbearing, the completed number of children 
+they eventually have may remain unchanged. However, this delay in timing 
+(a tempo effect) can temporarily depress the observed TFR, creating the 
+impression of a decline in fertility levels (a quantum effect). In this way,
+changes in timing may be misinterpreted as changes in fertility levels.
+
+In England, the age at which women have children has increased steadily since 
+the early 1990s - a common trend across may developed countries. This pattern 
+is also evident at the Local Authority level, as illustrated the graph below:
+
+
+```{r}
 lad_codes <- c("E09000007", "E09000020", "E09000026", "E12000007", "E92000001")
 years <- c(min(adjusted_tfr$year):max(adjusted_tfr$year))
 
@@ -101,7 +108,7 @@ caused by an increase in the mean age at childbearning. As expected, the
 adjusted TFR is above the standard TFR for England and London, 
 as demonstrated below:
 
-```{r results='hide'}
+```{r}
 
 location <- c("England", "London")
 
