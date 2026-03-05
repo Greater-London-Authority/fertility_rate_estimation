@@ -99,7 +99,7 @@ the population, making it unlikely that the assumptions two and three hold.
 ### Preliminary discussion
 
 The GLA Demography team calculated adjusted rates for all regions, (ITL level 2) subregions, and Local Authority Districts 
-in England and Wales. The output is only preliminary research outputs, the
+in England and Wales. These results are presented as preliminary research outputs only.
 team still trying to make sense of the results and how they can
 help us understand fertility rates in London. 
 
