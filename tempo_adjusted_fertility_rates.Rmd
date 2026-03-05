@@ -123,22 +123,40 @@ adjusted_tfr |>
   geom_line(
     data = adjusted_tfr |>
       dplyr::filter(gss_name == "London") |>
-      dplyr::rename(adj_tfr_london = adj_tfr), mapping = aes(y = adj_tfr_london, linetype = "adj_tfr_london"),
+      dplyr::rename(adj_tfr_london = adj_tfr),
+    mapping = aes(
+      y = adj_tfr_london,
+      linetype = "adj_tfr_london"
+    ),
     linewidth = 1,
     alpha = 0.7
   ) +
   geom_line(
     data = adjusted_tfr |>
       dplyr::filter(gss_name == "London") |>
-      dplyr::rename(tfr_london = tfr), mapping = aes(y = tfr_london, linetype = "tfr_london"),
+      dplyr::rename(tfr_london = tfr),
+    mapping = aes(
+      y = tfr_london,
+      linetype = "tfr_london"
+    ),
     linewidth = 1,
     alpha = 0.7
   ) +
   scale_x_continuous(breaks = years, guide = guide_axis(angle = 60)) +
   scale_y_continuous(limits = c(0, NA)) +
   scale_linetype_manual(
-    values = c("tfr" = "solid", "adj_tfr" = "dotted", "adj_tfr_london" = "dotdash", "tfr_london" = "longdash"),
-    labels = c("tfr" = "TFR England", "adj_tfr" = "Adjusted TFR England", "adj_tfr_london" = "Adjusted TFR London", "tfr_london" = "TFR London"),
+    values = c(
+      "tfr" = "solid",
+      "adj_tfr" = "dotted",
+      "adj_tfr_london" = "dotdash", "
+      tfr_london" = "longdash"
+    ),
+    labels = c(
+      "tfr" = "TFR England",
+      "adj_tfr" = "Adjusted TFR England",
+      "adj_tfr_london" = "Adjusted TFR London",
+      "tfr_london" = "TFR London"
+    ),
     name = NULL
   ) +
   labs(
@@ -177,7 +195,11 @@ ggplot(
   scale_y_continuous(limits = c(-0.7, 1.0)) +
   scale_linetype_manual(
     values = c("delta_mac_london" = "solid", "delta_mac" = "dotted"),
-    labels = c("delta_mac" = "\U0394MAC Camden", "delta_mac_london" = "\U0394MAC London"),
+    labels = c(
+      "delta_mac" =
+        "\U0394MAC Camden",
+      "delta_mac_london" = "\U0394MAC London"
+    ),
     name = NULL
   ) +
   labs(
