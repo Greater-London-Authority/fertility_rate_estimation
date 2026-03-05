@@ -1,7 +1,7 @@
 ---
-title: "Tempo Adjusted Fertility Rate Estimates"
+title: "Technical Note: Tempo Adjusted Fertility Rate Estimates"
 author: "Demography - Greater London Authority"
-date: "`r format(Sys.time(), '%d/%m/%Y')`"
+date: "`r format(Sys.time(), '%B %Y')`"
 output: html_document
 bibliography: adjusted_tfr.bib
 link-citations: true
@@ -16,7 +16,6 @@ div {
 ```
 
 ```{r, include=FALSE}
-
 source("R/functions/tempo_adjusted_fertility_rates.R")
 source("R/functions/plots.R")
 
@@ -25,7 +24,8 @@ asfr_lad_smooth <- readRDS("data/processed/smooth_asfr_lad_agg_cy.rds")
 
 if (!file.exists(file_path)) {
   adjusted_tfr <- calculate_tempo_adj_tfr(
-  "data/processed/smooth_asfr_lad_agg_cy.rds")
+    "data/processed/smooth_asfr_lad_agg_cy.rds"
+  )
   saveRDS(adjusted_tfr, file_path)
 } else {
   adjusted_tfr <- readRDS(file_path)
@@ -67,7 +67,6 @@ adjusted_tfr |>
     subtitle = "",
     caption = "Source: GLA modelled rates based on ONS births by age of mother"
   )
-
 ```
 
 ### How tempo-adjusted fertility rates are calculated \
@@ -82,7 +81,7 @@ Because data on birth order by Local Authority in England and Wales is not
 currently available, we calculate the adjusted rates by using the TFR and mean
 age at childbearing for each Local Authority at a given year.
 
-According to Vienne Institute of Demography [@potancokova_estimating_2008], 
+According to Vienna Institute of Demography [@potancokova_estimating_2008], 
 calculating tempo-adjusted TFR without  parity-specific data relies on three 
 assumptions: 1) fertility is below replacement level 2) changes in the mean age 
 at childbearing occur uniformly across birth orders, 
@@ -100,16 +99,15 @@ the population, making it unlikely that the assumptions two and three hold.
 
 The GLA Demography team calculated adjusted rates for all regions, (ITL level 2) subregions, and Local Authority Districts 
 in England and Wales. These results are presented as preliminary research outputs only.
-team still trying to make sense of the results and how they can
+Further work is required to interpret these results and to determine whether they provide useful insights into fertility rate trends.
 help us understand fertility rates in London. 
 
 Adjusted fertility rates aimed to remove the temporary tempo distortions 
-caused by an increase in the mean age at childbearning. As expected, the 
+caused by an increase in the mean age at childbearing. As expected, the 
 adjusted TFR is above the standard TFR for England and London, 
 as demonstrated below:
 
-```{r}
-
+```{r, echo=FALSE}
 location <- c("England", "London")
 
 adjusted_tfr |>
@@ -124,15 +122,15 @@ adjusted_tfr |>
   ) +
   geom_line(
     data = adjusted_tfr |>
-    dplyr::filter(gss_name == "London") |> 
-    dplyr::rename(adj_tfr_london = adj_tfr), mapping = aes(y = adj_tfr_london, linetype = "adj_tfr_london"),
+      dplyr::filter(gss_name == "London") |>
+      dplyr::rename(adj_tfr_london = adj_tfr), mapping = aes(y = adj_tfr_london, linetype = "adj_tfr_london"),
     linewidth = 1,
     alpha = 0.7
   ) +
-   geom_line(
+  geom_line(
     data = adjusted_tfr |>
-    dplyr::filter(gss_name == "London") |> 
-    dplyr::rename(tfr_london = tfr), mapping = aes(y = tfr_london, linetype = "tfr_london"),
+      dplyr::filter(gss_name == "London") |>
+      dplyr::rename(tfr_london = tfr), mapping = aes(y = tfr_london, linetype = "tfr_london"),
     linewidth = 1,
     alpha = 0.7
   ) +
@@ -148,7 +146,6 @@ adjusted_tfr |>
     subtitle = "England and London",
     caption = "Source: GLA modelled rates based on ONS births by age of mother"
   )
-
 ```
 
 Below, we've outlined the few points of consideration: \
@@ -157,23 +154,28 @@ Below, we've outlined the few points of consideration: \
 Even though the MAC graph above shows that MAC has been increasing linearly, 
 the rate of change varies significantly as demonstrated in the graph below: \
 
-```{r}
-
-ggplot(data = adjusted_tfr |>
-           dplyr::filter(gss_name == "Camden"), 
-       mapping = aes(y=delta_mac, x= years, linetype = "delta_mac")) +
-    geom_line(linewidth = 1,
-    alpha = 0.7) +
-    geom_line(data = adjusted_tfr |>
-           dplyr::filter(gss_name == "London") |> 
-            dplyr::rename(delta_mac_london = delta_mac), 
-       mapping = aes(y=delta_mac_london, linetype = "delta_mac_london"), 
-        linewidth = 1,
-    alpha = 0.7) +
-    theme_gla(base_size = 10) +
-    scale_x_continuous(breaks = years, guide = guide_axis(angle = 60)) +
+```{r, echo=FALSE}
+ggplot(
+  data = adjusted_tfr |>
+    dplyr::filter(gss_name == "Camden"),
+  mapping = aes(y = delta_mac, x = years, linetype = "delta_mac")
+) +
+  geom_line(
+    linewidth = 1,
+    alpha = 0.7
+  ) +
+  geom_line(
+    data = adjusted_tfr |>
+      dplyr::filter(gss_name == "London") |>
+      dplyr::rename(delta_mac_london = delta_mac),
+    mapping = aes(y = delta_mac_london, linetype = "delta_mac_london"),
+    linewidth = 1,
+    alpha = 0.7
+  ) +
+  theme_gla(base_size = 10) +
+  scale_x_continuous(breaks = years, guide = guide_axis(angle = 60)) +
   scale_y_continuous(limits = c(-0.7, 1.0)) +
-   scale_linetype_manual(
+  scale_linetype_manual(
     values = c("delta_mac_london" = "solid", "delta_mac" = "dotted"),
     labels = c("delta_mac" = "\U0394MAC Camden", "delta_mac_london" = "\U0394MAC London"),
     name = NULL
@@ -183,7 +185,6 @@ ggplot(data = adjusted_tfr |>
     subtitle = "Camden and London",
     caption = "Source: GLA modelled rates based on ONS births by age of mother"
   )
-  
 ```
 
 Both graphs shows how MAC and adjusted TFR follow a similar pattern. \
@@ -198,8 +199,7 @@ This is particularly problematic at the Local Authority level, where $\Delta{MAC
 is highly volatile. In Camden for example, from 1994 to 2022 the YoY change in 
 MAC varied from a high of 0.97 and a low of -0.28. \
 
-```{r}
-
+```{r, echo=FALSE}
 adjusted_tfr |>
   dplyr::filter(gss_name == "Camden") |>
   ggplot(aes(x = year)) +
@@ -237,21 +237,21 @@ be sure that all changes can be attributed to tempo dynamics, it is plausible
 that postponment is accompanied by a reduction in family size. 
 
 Data from the Netherlands 1950-97 shows how the assumption that women of all ages 
-bearing children defer or advance their births in the same manner does is not 
+defer or advance childbearing in the same manner is not 
 supported by evidence [@van_imhoff_quantum_2000]. Period tempo changes depend
 on cohort. Similarly, this assumption is also violated at small areas.
 
 
 ```{r, echo=FALSE}
-
-plot_asfr_multiple_areas_and_years(asfr_data = asfr_lad_smooth, 
-                                   lad_codes = c(
-                                     "E09000018", "E09000005", "E09000025", "E09000012"),
-                                   years = c(2001, 2002, 2003), 
-                                   ncols = 6, 
-                                   label_group = "year")
-
-
+plot_asfr_multiple_areas_and_years(
+  asfr_data = asfr_lad_smooth,
+  lad_codes = c(
+    "E09000018", "E09000005", "E09000025", "E09000012"
+  ),
+  years = c(2001, 2002, 2003),
+  ncols = 6,
+  label_group = "year"
+)
 ```
 
 
