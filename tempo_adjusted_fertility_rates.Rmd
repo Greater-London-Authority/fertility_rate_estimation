@@ -242,7 +242,7 @@ supported by evidence [@van_imhoff_quantum_2000]. Period tempo changes depend
 on cohort. Similarly, this assumption is also violated at small areas.
 
 
-```{r}
+```{r, echo=FALSE}
 
 plot_asfr_multiple_areas_and_years(asfr_data = asfr_lad_smooth, 
                                    lad_codes = c(
