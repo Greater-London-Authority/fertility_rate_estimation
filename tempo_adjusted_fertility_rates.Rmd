@@ -51,7 +51,7 @@ the mid-1970s - a common trend across may developed countries. This pattern
 is also evident at the Local Authority level, as illustrated the graph below:
 
 
-```{r}
+```{r, echo=FALSE}
 lad_codes <- c("E09000007", "E09000020", "E09000026", "E12000007", "E92000001")
 years <- c(min(adjusted_tfr$year):max(adjusted_tfr$year))
 
