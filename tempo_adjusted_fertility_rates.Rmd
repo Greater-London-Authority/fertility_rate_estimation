@@ -15,7 +15,7 @@ div {
 }
 ```
 
-```{r results='hide'}
+```{r, include=FALSE}
 
 source("R/functions/tempo_adjusted_fertility_rates.R")
 source("R/functions/plots.R")
