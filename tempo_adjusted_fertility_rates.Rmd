@@ -1,0 +1,318 @@
+---
+title: "Technical Note: Tempo Adjusted Fertility Rate Estimates"
+author: "Demography - Greater London Authority"
+date: "`r format(Sys.time(), '%B %Y')`"
+output: html_document
+bibliography: adjusted_tfr.bib
+link-citations: true
+---
+
+```{css, echo=FALSE}
+div {
+    text-align: justify;
+    margin-top: 10px;
+    width: 600px;
+}
+```
+
+```{r, include=FALSE}
+source("R/functions/tempo_adjusted_fertility_rates.R")
+source("R/functions/plots.R")
+
+file_path <- "data/processed/adjusted_tfr_my.rds"
+asfr_lad_smooth <- readRDS("data/processed/smooth_asfr_lad_agg_cy.rds")
+
+if (!file.exists(file_path)) {
+  adjusted_tfr <- calculate_tempo_adj_tfr(
+    "data/processed/smooth_asfr_lad_agg_cy.rds"
+  )
+  saveRDS(adjusted_tfr, file_path)
+} else {
+  adjusted_tfr <- readRDS(file_path)
+}
+```
+
+The GLA demography team have consistely produced a series of population projection
+to help to inform policy-making. 
+
+The research in alternative measures of fertility rate is part of a broader initiative 
+aimed at improving our understanding of past trends in fertility rates and anticipating 
+how these patterns may change in the future. This analysis represents an experimental 
+stage of this work. The outputs are preliminary and are shared without extensive analysis 
+or interpretation.
+
+We hope that publishing these early results will support transparency and encourage further 
+discussion. We also welcome collaboration with other analysts and researchers who are interested 
+in contributing to the development and understanding of this topic.
+
+### Introduction to tempo adjusted fertility estimates \
+
+The calculation of Total Fertility Rates (TFR) reflects the interaction of 
+two key components: **tempo** (the timing of childbearing) and **quantum** 
+(the overall level of childbearing).
+
+When the mean age at childbearing shifts, standards measure of fertility can
+misrepresent the underlying fertility behaviour. For example, if a
+cohort of women postpones childbearing, the completed number of children 
+they eventually have may remain unchanged. However, this delay in timing 
+(a tempo effect) can temporarily depress the observed TFR, creating the 
+impression of a decline in fertility levels (a quantum effect). In this way,
+changes in timing may be misinterpreted as changes in fertility levels.
+
+In England, the age at which women have children has increased steadily since 
+the mid-1970s - a common trend across may developed countries. This pattern 
+is also evident at the Local Authority level, as illustrated the graph below:
+
+
+```{r, echo=FALSE}
+lad_codes <- c("E09000007", "E09000020", "E09000026", "E12000007", "E92000001")
+years <- c(min(adjusted_tfr$year):max(adjusted_tfr$year))
+
+adjusted_tfr |>
+  filter(gss_code %in% lad_codes) |>
+  ggplot(aes(x = year, y = mac, colour = gss_name)) +
+  theme_gla(base_size = 10) +
+  geom_line(linewidth = 1, alpha = 0.7) +
+  scale_x_continuous(breaks = years, guide = guide_axis(angle = 60)) +
+  scale_y_continuous(limits = c(25, NA)) +
+  labs(
+    title = "Mean childbearing age",
+    subtitle = "",
+    caption = "Source: GLA modelled rates based on ONS births by age of mother"
+  )
+```
+
+### How tempo-adjusted fertility rates are calculated \
+
+The first tempo adjustment was proposed by Bongaarts and Feeney [@bongaarts_quantum_1998]:
+
+$$\text{adjTFR}(t)_{i} = \frac {TFR_{i}(t)}{1-r_{i}(t)}$$
+Where: \
+$r_{i}$ the change in the mean age at childbearing (MAC) of birth order ${i}$ \
+
+Because data on birth order by Local Authority in England and Wales is not 
+currently available, we calculate the adjusted rates by using the TFR and mean
+age at childbearing for each Local Authority at a given year.
+
+According to Vienna Institute of Demography [@potancokova_estimating_2008], 
+calculating tempo-adjusted TFR without  parity-specific data relies on three 
+assumptions: 1) fertility is below replacement level 2) changes in the mean age 
+at childbearing occur uniformly across birth orders, 
+and 3) the annual shift in mean age does not exceed about 0.2 years. 
+
+As a result, the adjusted TFR may be biased if different parities experience 
+different timing shifts or if structural changes in fertility are occurring 
+simultaneously. 
+
+This is particularly relevant in London, where high levels of migration can 
+alter the parity composition, age structure, and fertility behaviour of 
+the population, making it unlikely that the assumptions two and three hold.
+
+### Preliminary discussion
+
+The GLA Demography team calculated adjusted rates for all regions, (ITL level 2) 
+subregions, and Local Authority Districts in England and Wales. These results are 
+presented as preliminary research outputs only. Further work is required to interpret
+these results and to determine whether they provide useful insights into fertility 
+rate trends.
+
+Adjusted fertility rates aimed to remove the temporary tempo distortions 
+caused by an increase in the mean age at childbearing. As expected, the 
+adjusted TFR is above the standard TFR for England and London, 
+as demonstrated below:
+
+```{r, echo=FALSE}
+location <- c("England", "London")
+
+adjusted_tfr |>
+  dplyr::filter(gss_name == "England") |>
+  ggplot2::ggplot(aes(x = year)) +
+  gglaplot::theme_gla(base_size = 10) +
+  ggplot2::geom_line(
+    aes(y = tfr, linetype = "tfr"),
+    linewidth = 1, alpha = 0.7
+  ) +
+  ggplot2::geom_line(
+    aes(y = adj_tfr, linetype = "adj_tfr"),
+    linewidth = 1,
+    alpha = 0.7
+  ) +
+  ggplot2::geom_line(
+    data = adjusted_tfr |>
+      dplyr::filter(gss_name == "London") |>
+      dplyr::rename(adj_tfr_london = adj_tfr),
+    mapping = aes(
+      y = adj_tfr_london,
+      linetype = "adj_tfr_london"
+    ),
+    linewidth = 1,
+    alpha = 0.7
+  ) +
+  ggplot2::geom_line(
+    data = adjusted_tfr |>
+      dplyr::filter(gss_name == "London") |>
+      dplyr::rename(tfr_london = tfr),
+    mapping = aes(
+      y = tfr_london,
+      linetype = "tfr_london"
+    ),
+    linewidth = 1,
+    alpha = 0.7
+  ) +
+  ggplot2::scale_x_continuous(breaks = years, guide = guide_axis(angle = 60)) +
+  ggplot2::scale_y_continuous(limits = c(0, NA)) +
+  ggplot2::scale_linetype_manual(
+    values = c(
+      "tfr" = "solid",
+      "adj_tfr" = "dotted",
+      "adj_tfr_london" = "dotdash",
+      "tfr_london" = "longdash"
+    ),
+    labels = c(
+      "tfr" = "TFR England",
+      "adj_tfr" = "Adjusted TFR England",
+      "adj_tfr_london" = "Adjusted TFR London",
+      "tfr_london" = "TFR London"
+    ),
+    name = NULL
+  ) +
+  ggplot2::labs(
+    title = "TFR and Adjusted TFR",
+    subtitle = "England and London",
+    caption = "Source: GLA modelled rates based on ONS births by age of mother"
+  )
+```
+
+Below, we've outlined the few points of consideration: \
+
+**1. Hypersensitive to changes in mean age at childbearing (MAC)** \
+Even though the MAC graph above shows that MAC has been increasing linearly, 
+the rate of change varies significantly as demonstrated in the graph below: \
+
+```{r, echo=FALSE}
+ggplot(
+  data = adjusted_tfr |>
+    dplyr::filter(gss_name == "Camden"),
+  mapping = aes(y = delta_mac, x = years, linetype = "delta_mac")
+) +
+  geom_line(
+    linewidth = 1,
+    alpha = 0.7
+  ) +
+  geom_line(
+    data = adjusted_tfr |>
+      dplyr::filter(gss_name == "London") |>
+      dplyr::rename(delta_mac_london = delta_mac),
+    mapping = aes(y = delta_mac_london, linetype = "delta_mac_london"),
+    linewidth = 1,
+    alpha = 0.7
+  ) +
+  theme_gla(base_size = 10) +
+  scale_x_continuous(breaks = years, guide = guide_axis(angle = 60)) +
+  scale_y_continuous(limits = c(-0.7, 1.0)) +
+  scale_linetype_manual(
+    values = c("delta_mac_london" = "solid", "delta_mac" = "dotted"),
+    labels = c(
+      "delta_mac" =
+        "\U0394MAC Camden",
+      "delta_mac_london" = "\U0394MAC London"
+    ),
+    name = NULL
+  ) +
+  labs(
+    title = "Change in mean age at childbearing (MAC)",
+    subtitle = "Camden and London",
+    caption = "Source: GLA modelled rates based on ONS births by age of mother"
+  )
+```
+
+Both graphs shows how MAC and adjusted TFR follow a similar pattern. \
+
+When MAC increases rapidly the adjusted fertility rates becomes inflated. 
+For example, MAC rose substantially from 2005, falling in 2008, before rising 
+sharply again in 2009/10. Adjusted TFR peaks in London in 2012, when we observe 
+the largest increase in MAC - 0.50, double of the average change for the 
+period (0.24). \ 
+
+This is particularly problematic at the Local Authority level, where $\Delta{MAC}$
+is highly volatile. In Camden for example, from 1994 to 2022 the YoY change in 
+MAC varied from a high of 0.97 and a low of -0.28. \
+
+```{r, echo=FALSE}
+adjusted_tfr |>
+  dplyr::filter(gss_name == "Camden") |>
+  ggplot(aes(x = year)) +
+  theme_gla(base_size = 10) +
+  geom_line(aes(y = tfr, linetype = "tfr"), linewidth = 1, alpha = 0.7) +
+  geom_line(
+    aes(y = adj_tfr, linetype = "adj_tfr"),
+    linewidth = 1,
+    alpha = 0.7
+  ) +
+  scale_x_continuous(breaks = years, guide = guide_axis(angle = 60)) +
+  scale_y_continuous(limits = c(0, NA)) +
+  scale_linetype_manual(
+    values = c("tfr" = "solid", "adj_tfr" = "dotted"),
+    labels = c("tfr" = "TFR", "adj_tfr" = "Adjusted TFR"),
+    name = NULL
+  ) +
+  labs(
+    title = "Camden TFR and Adjusted TFR",
+    caption = "Source: GLA modelled rates based on ONS births by age of mother"
+  )
+```
+
+
+**2. Lack of birth data by parity at the Local Authority level** \
+The ONS does not publish birth data by parity at the Local Authority level, which
+limits our ability to validate assumptions and verify trends. For example, we
+could check whether MAC by birth order is less volatile and if higher-order 
+births are more/less common in some boroughs.
+
+
+**3. Hard to separate tempo from reduction in family size** \
+Changes in fertility rates are assumed to be solely tempo changes. We cannot
+be sure that all changes can be attributed to tempo dynamics, it is plausible
+that postponment is accompanied by a reduction in family size. 
+
+Data from the Netherlands 1950-97 shows how the assumption that women of all ages 
+defer or advance childbearing in the same manner is not 
+supported by evidence [@van_imhoff_quantum_2000]. Period tempo changes depend
+on cohort. Similarly, this assumption is also violated at small areas.
+
+
+```{r, echo=FALSE}
+plot_asfr_multiple_areas_and_years(
+  asfr_data = asfr_lad_smooth,
+  lad_codes = c(
+    "E09000018", "E09000005", "E09000025", "E09000012"
+  ),
+  years = c(2001, 2002, 2003),
+  ncols = 6,
+  label_group = "year"
+)
+```
+
+
+### Final remarks \
+Adjusted fertility rates aim to improve our understanding of changes in period 
+fertility by reducing distortions caused by tempo effects. This brief analysis 
+suggests that, at small geographic scales, the measure has important limitations 
+that require further investigation.
+
+In London local authorities, high levels of population turnover mean that year-on-year 
+changes in the mean age at childbearing can fluctuate considerably. These fluctuations 
+introduce substantial noise into adjusted fertility rates when calculated for small areas, 
+making interpretation more difficult.
+
+Adjusted fertility rates are therefore likely to provide greater analytical value at regional 
+or national levels. At these scales, changes in the population at risk are less strongly influenced
+by migration patterns, and additional data, such as births by parity, are available to support 
+interpretation.
+
+Further work is needed to better understand and interpret these results. This could include incorporating 
+additional datasets, such as births by age of mother and parity at the subnational level (currently unavailable), 
+or births by age of mother and country of birth ([available on the ONS website](https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/livebirths/datasets/parentscountryofbirth)).
+
+
+### Bibliography \

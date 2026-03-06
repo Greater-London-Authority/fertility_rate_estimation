@@ -179,7 +179,10 @@ transform_combined_into_sye <- function(
     asfr_min_age,
     asfr_max_age
 ) {
-    rates_sya <- data.frame(age = c(asfr_min_age:asfr_max_age)) %>%
+
+  cols_to_del <- c("age_of_mother", "population", "group_size", "births")
+
+  rates_sya <- data.frame(age = c(asfr_min_age:asfr_max_age)) %>%
         mutate(age_of_mother = as.character(age)) %>%
         mutate(
             age_of_mother = case_when(
@@ -193,7 +196,7 @@ transform_combined_into_sye <- function(
             by = "age_of_mother",
             relationship = "many-to-many"
         ) %>%
-        select(-c(age_of_mother, population, group_size, births)) %>%
+        select(-any_of(cols_to_del)) %>%
         arrange(gss_code, year, age)
 
     return(rates_sya)
