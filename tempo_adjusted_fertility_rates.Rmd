@@ -32,6 +32,19 @@ if (!file.exists(file_path)) {
 }
 ```
 
+The GLA demography team have consistely produced a series of population projection
+to help to inform policy-making. 
+
+The research in alternative measures of fertility rate is part of a broader initiative 
+aimed at improving our understanding of past trends in fertility rates and anticipating 
+how these patterns may change in the future. This analysis represents an experimental 
+stage of this work. The outputs are preliminary and are shared without extensive analysis 
+or interpretation.
+
+We hope that publishing these early results will support transparency and encourage further 
+discussion. We also welcome collaboration with other analysts and researchers who are interested 
+in contributing to the development and understanding of this topic.
+
 ### Introduction to tempo adjusted fertility estimates \
 
 The calculation of Total Fertility Rates (TFR) reflects the interaction of 
@@ -97,10 +110,11 @@ the population, making it unlikely that the assumptions two and three hold.
 
 ### Preliminary discussion
 
-The GLA Demography team calculated adjusted rates for all regions, (ITL level 2) subregions, and Local Authority Districts 
-in England and Wales. These results are presented as preliminary research outputs only.
-Further work is required to interpret these results and to determine whether they provide useful insights into fertility rate trends.
-help us understand fertility rates in London. 
+The GLA Demography team calculated adjusted rates for all regions, (ITL level 2) 
+subregions, and Local Authority Districts in England and Wales. These results are 
+presented as preliminary research outputs only. Further work is required to interpret
+these results and to determine whether they provide useful insights into fertility 
+rate trends.
 
 Adjusted fertility rates aimed to remove the temporary tempo distortions 
 caused by an increase in the mean age at childbearing. As expected, the 
@@ -112,15 +126,18 @@ location <- c("England", "London")
 
 adjusted_tfr |>
   dplyr::filter(gss_name == "England") |>
-  ggplot(aes(x = year)) +
-  theme_gla(base_size = 10) +
-  geom_line(aes(y = tfr, linetype = "tfr"), linewidth = 1, alpha = 0.7) +
-  geom_line(
+  ggplot2::ggplot(aes(x = year)) +
+  gglaplot::theme_gla(base_size = 10) +
+  ggplot2::geom_line(
+    aes(y = tfr, linetype = "tfr"),
+    linewidth = 1, alpha = 0.7
+  ) +
+  ggplot2::geom_line(
     aes(y = adj_tfr, linetype = "adj_tfr"),
     linewidth = 1,
     alpha = 0.7
   ) +
-  geom_line(
+  ggplot2::geom_line(
     data = adjusted_tfr |>
       dplyr::filter(gss_name == "London") |>
       dplyr::rename(adj_tfr_london = adj_tfr),
@@ -131,7 +148,7 @@ adjusted_tfr |>
     linewidth = 1,
     alpha = 0.7
   ) +
-  geom_line(
+  ggplot2::geom_line(
     data = adjusted_tfr |>
       dplyr::filter(gss_name == "London") |>
       dplyr::rename(tfr_london = tfr),
@@ -142,14 +159,14 @@ adjusted_tfr |>
     linewidth = 1,
     alpha = 0.7
   ) +
-  scale_x_continuous(breaks = years, guide = guide_axis(angle = 60)) +
-  scale_y_continuous(limits = c(0, NA)) +
-  scale_linetype_manual(
+  ggplot2::scale_x_continuous(breaks = years, guide = guide_axis(angle = 60)) +
+  ggplot2::scale_y_continuous(limits = c(0, NA)) +
+  ggplot2::scale_linetype_manual(
     values = c(
       "tfr" = "solid",
       "adj_tfr" = "dotted",
-      "adj_tfr_london" = "dotdash", "
-      tfr_london" = "longdash"
+      "adj_tfr_london" = "dotdash",
+      "tfr_london" = "longdash"
     ),
     labels = c(
       "tfr" = "TFR England",
@@ -159,7 +176,7 @@ adjusted_tfr |>
     ),
     name = NULL
   ) +
-  labs(
+  ggplot2::labs(
     title = "TFR and Adjusted TFR",
     subtitle = "England and London",
     caption = "Source: GLA modelled rates based on ONS births by age of mother"
@@ -278,5 +295,24 @@ plot_asfr_multiple_areas_and_years(
 
 
 ### Final remarks \
+Adjusted fertility rates aim to improve our understanding of changes in period 
+fertility by reducing distortions caused by tempo effects. This brief analysis 
+suggests that, at small geographic scales, the measure has important limitations 
+that require further investigation.
+
+In London local authorities, high levels of population turnover mean that year-on-year 
+changes in the mean age at childbearing can fluctuate considerably. These fluctuations 
+introduce substantial noise into adjusted fertility rates when calculated for small areas, 
+making interpretation more difficult.
+
+Adjusted fertility rates are therefore likely to provide greater analytical value at regional 
+or national levels. At these scales, changes in the population at risk are less strongly influenced
+by migration patterns, and additional data, such as births by parity, are available to support 
+interpretation.
+
+Further work is needed to better understand and interpret these results. This could include incorporating 
+additional datasets, such as births by age of mother and parity at the subnational level (currently unavailable), 
+or births by age of mother and country of birth ([available on the ONS website](https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/livebirths/datasets/parentscountryofbirth)).
+
 
 ### Bibliography \
