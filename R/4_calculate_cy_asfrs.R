@@ -42,15 +42,16 @@ for (i in 1:length(raw_list)) {
 }
 
 smooth_fertility_rates <- smooth_list %>%
-  bind_rows() %>%
-  select(-c(fitting_status))
+  bind_rows()
+
+prop.table(table(smooth_fertility_rates$fitting_status))
 
 saveRDS(smooth_fertility_rates, file_path$asfr_smooth)
 
 # Create total fertility rates
 total_fertility_rates <- smooth_fertility_rates %>%
-    group_by(gss_code, gss_name, year, geography) %>%
-    summarise(tfr = sum(fertility_rate), .groups = "drop")
+  group_by(gss_code, gss_name, year, geography) %>%
+  summarise(tfr = sum(fertility_rate), .groups = "drop")
 
 saveRDS(total_fertility_rates, file_path$tfr)
 
