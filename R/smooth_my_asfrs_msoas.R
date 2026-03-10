@@ -25,8 +25,8 @@ asfr_msoa_my <- raw_asfr_msoa_my |>
 raw_list <- split(asfr_msoa_my, ~ msoa21_code + year)
 smooth_list <- sapply(names(raw_list), function(x) NULL)
 
-# Set initial year
-first_year <- sort(unique(asfr_msoa_my$year))[1]
+# Set first year
+first_year <- min(asfr_msoa_my$year)
 
 for (i in 1:length(raw_list)) {
   current_year <- unique(raw_list[[i]][["year"]])
@@ -46,7 +46,7 @@ for (i in 1:length(raw_list)) {
 
   smooth_rates <- smooth_fertility_curve(
     raw_rates = raw_list[[i]],
-    params
+    params = params
   )
 
   smooth_list[[i]] <- smooth_rates$rates
