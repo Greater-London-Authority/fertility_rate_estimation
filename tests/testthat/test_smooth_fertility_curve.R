@@ -13,7 +13,17 @@ test_that("`smooth_fertility_curve` should return smooth
           single year of age fertility rates", {
   expected_output <- readRDS(FILE_PATH_TO_SMOOTH_ASFR)
 
-  output <- smooth_fertility_curve(readRDS(FILE_PATH_TO_ASFR_SAMPLE))
+  output <- smooth_fertility_curve(
+    readRDS(FILE_PATH_TO_ASFR_SAMPLE),
+    params <- list(
+      m = 0.424,
+      a = 0.574,
+      b1 = 3.536,
+      c1 = 24.858,
+      b2 = 4.815,
+      c2 = 33.218
+    )
+  )[["rates"]]
 
   expect_identical(output, expected_output)
 })
