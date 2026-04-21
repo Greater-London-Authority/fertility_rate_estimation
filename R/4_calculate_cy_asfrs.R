@@ -35,8 +35,31 @@ smooth_list <- sapply(names(raw_list), function(x) NULL)
 
 message("Smoothing fertility curves...")
 
+# Set first year
+first_year <- min(reprofiled_fertility_rates$year)
+
 for (i in 1:length(raw_list)) {
-  smooth_list[[i]] <- smooth_fertility_curve(raw_list[[i]])
+  current_year <- unique(raw_list[[i]][["year"]])
+
+  if (current_year == first_year) {
+    params <- list(
+      m = 0.424,
+      a = 0.574,
+      b1 = 3.536,
+      c1 = 24.858,
+      b2 = 4.815,
+      c2 = 33.218
+    )
+  } else {
+    params <- smooth_rates$coefs
+  }
+
+  smooth_rates <- smooth_fertility_curve(
+    raw_rates = raw_list[[i]],
+    params = params
+  )
+
+  smooth_list[[i]] <- smooth_rates$rates
 
   if (i %% 100 == 0) message(paste0("Running ", i, " of ", length(raw_list)))
 }

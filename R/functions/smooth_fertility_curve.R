@@ -9,15 +9,15 @@ library(minpack.lm)
 #' @returns A nested list.
 smooth_fertility_curve <- function(
   raw_rates,
+  params,
   age_range_to_model = c(15:49)
 ) {
-  # Starting values for initial fitting pass
-  m <- 0.424
-  a <- 0.574
-  b1 <- 3.536
-  c1 <- 24.858
-  b2 <- 4.815
-  c2 <- 33.218
+  m <- params[["m"]]
+  a <- params[["a"]]
+  b1 <- params[["b1"]]
+  c1 <- params[["c1"]]
+  b2 <- params[["b2"]]
+  c2 <- params[["c2"]]
 
   success <- FALSE
 
@@ -44,6 +44,14 @@ smooth_fertility_curve <- function(
   if (!success) {
     out_rates <- raw_rates %>%
       mutate(fitting_status = "failed")
+    coefs <- list(
+      m = 0.424,
+      a = 0.574,
+      b1 = 3.536,
+      c1 = 24.858,
+      b2 = 4.815,
+      c2 = 33.218
+    )
   } else {
     smooth_rates <- data.frame(
       age = age_range_to_model,
@@ -63,7 +71,7 @@ smooth_fertility_curve <- function(
       )
   }
 
-  return(out_rates)
+  return(list(rates = out_rates, coefs = coefs))
 }
 
 #' Curve fitting function based on Hadwiger mixture model for fitting to data
