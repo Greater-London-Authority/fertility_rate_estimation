@@ -22,7 +22,10 @@ asfr_msoa_my <- raw_asfr_msoa_my |>
 
 ###### Step 2: New fitting for fertility rates single year, mid-year MSOA
 
-raw_list <- split(asfr_msoa_my, ~ msoa21_code + year)
+raw_list <- split(asfr_msoa_my, ~ msoa21_code + year)[order(names(split(
+  asfr_msoa_my,
+  ~ msoa21_code + year
+)))]
 smooth_list <- sapply(names(raw_list), function(x) NULL)
 
 # Set first year

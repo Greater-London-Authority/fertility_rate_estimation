@@ -30,7 +30,13 @@ saveRDS(raw_fertility_rates, file_path$asfr_raw)
 
 reprofiled_fertility_rates <- reprofile_combined_rates(raw_fertility_rates)
 
-raw_list <- split(reprofiled_fertility_rates, ~ gss_code + year)
+raw_list <- split(
+  reprofiled_fertility_rates,
+  ~ gss_code + year
+)[order(names(split(
+  reprofiled_fertility_rates,
+  ~ gss_code + year
+)))]
 smooth_list <- sapply(names(raw_list), function(x) NULL)
 
 message("Smoothing fertility curves...")
